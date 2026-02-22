@@ -170,7 +170,7 @@ const PostComposer = ({ isOpen, onClose, initialContent = '', initialDraftId, on
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-slate-950/80 backdrop-blur-md transition-all duration-300">
-            <div className={`bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 w-full ${previewMode ? 'max-w-6xl' : 'max-w-2xl'} rounded-2xl sm:rounded-3xl shadow-2xl flex flex-col h-[96vh] sm:h-auto max-h-[96vh] sm:max-h-[90vh] overflow-hidden transition-all duration-500`}>
+            <div className={`bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 w-full ${previewMode ? 'max-w-6xl' : 'max-w-2xl'} rounded-2xl sm:rounded-3xl shadow-2xl flex flex-col h-[96vh] sm:h-auto max-h-[96vh] sm:max-h-[90vh] min-h-0 overflow-hidden transition-all duration-500`}>
                 <div className="p-4 sm:p-5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-white/50 dark:bg-slate-900/50">
                     <div className="flex items-center gap-3">
                         <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
@@ -202,9 +202,9 @@ const PostComposer = ({ isOpen, onClose, initialContent = '', initialDraftId, on
                     </div>
                 </div>
 
-                <div className="flex flex-1 overflow-hidden flex-col md:flex-row">
+                <div className="flex flex-1 min-h-0 overflow-hidden flex-col md:flex-row">
                     {/* Editor Section */}
-                    <div className="flex-1 min-w-0 overflow-y-auto p-4 sm:p-6 lg:p-8 space-y-6">
+                    <div className="flex-1 min-w-0 min-h-0 overflow-y-auto p-4 sm:p-6 lg:p-8 space-y-6">
                         {/* Platform Selector */}
                         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                             <div className="flex gap-2 w-full sm:w-auto">
@@ -321,7 +321,7 @@ const PostComposer = ({ isOpen, onClose, initialContent = '', initialDraftId, on
                     </div>
 
                     {/* AI Chat Side Panel */}
-                    <div className={`shrink-0 w-full md:w-[260px] lg:w-[290px] xl:w-[330px] bg-slate-50 dark:bg-slate-950/50 border-t md:border-t-0 md:border-l border-slate-200 dark:border-slate-800 flex-col max-h-[42vh] md:max-h-none ${isCopilotOpenMobile ? 'flex' : 'hidden'} md:flex`}>
+                    <div className={`shrink-0 w-full md:w-[260px] lg:w-[290px] xl:w-[330px] bg-slate-50 dark:bg-slate-950/50 border-t md:border-t-0 md:border-l border-slate-200 dark:border-slate-800 flex-col min-h-0 max-h-[42vh] md:max-h-none ${isCopilotOpenMobile ? 'flex' : 'hidden'} md:flex`}>
                         <div className="p-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-white dark:bg-transparent">
                             <div className="flex items-center gap-2">
                                 <WandSparkles size={16} className="text-blue-500" />
@@ -387,17 +387,17 @@ const PostComposer = ({ isOpen, onClose, initialContent = '', initialDraftId, on
                     </div>
                 </div>
 
-                <div className="p-4 sm:p-6 border-t border-slate-200 dark:border-slate-800 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between bg-slate-50 dark:bg-slate-900/80 backdrop-blur-md">
+                <div className="p-4 sm:p-6 border-t border-slate-200 dark:border-slate-800 shrink-0 sticky bottom-0 z-20 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between bg-slate-50 dark:bg-slate-900/80 backdrop-blur-md">
                     <div className="flex items-center gap-2">
                         <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
                         <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">System Online</span>
                     </div>
-                    <div className="flex flex-wrap items-center gap-2 sm:gap-4 w-full sm:w-auto">
-                        <button onClick={onClose} className="px-5 py-2.5 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-bold text-sm transition-all">Abort</button>
+                    <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-2 sm:gap-3 w-full md:w-auto">
+                        <button onClick={onClose} className="w-full sm:w-auto px-5 py-2.5 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-bold text-sm transition-all">Abort</button>
                         <button
                             onClick={() => handleAction('save')}
                             disabled={isSaving}
-                            className="flex-1 sm:flex-none justify-center px-5 py-2.5 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-white rounded-xl font-bold text-sm border border-slate-200 dark:border-slate-700 transition-all flex items-center gap-2 active:scale-95 disabled:opacity-50 shadow-sm"
+                            className="w-full sm:w-auto sm:flex-none justify-center px-5 py-2.5 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-white rounded-xl font-bold text-sm border border-slate-200 dark:border-slate-700 transition-all flex items-center gap-2 active:scale-95 disabled:opacity-50 shadow-sm"
                         >
                             {isSaving ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />}
                             Save Draft
@@ -405,7 +405,7 @@ const PostComposer = ({ isOpen, onClose, initialContent = '', initialDraftId, on
                         <button
                             onClick={() => handleAction('schedule')}
                             disabled={isSaving}
-                            className={`flex-1 sm:flex-none justify-center px-8 py-2.5 rounded-xl font-bold text-sm shadow-xl transition-all flex items-center gap-2 active:scale-95 disabled:opacity-50 ${platform === 'linkedin' ? 'bg-blue-600 text-white shadow-blue-600/20' : 'bg-slate-900 dark:bg-white text-white dark:text-slate-950 shadow-black/10 dark:shadow-white/10'}`}
+                            className={`w-full sm:w-auto sm:flex-none justify-center px-8 py-2.5 rounded-xl font-bold text-sm shadow-xl transition-all flex items-center gap-2 active:scale-95 disabled:opacity-50 ${platform === 'linkedin' ? 'bg-blue-600 text-white shadow-blue-600/20' : 'bg-slate-900 dark:bg-white text-white dark:text-slate-950 shadow-black/10 dark:shadow-white/10'}`}
                         >
                             {isSaving ? <Loader2 size={16} className="animate-spin" /> : <SendHorizontal size={16} />}
                             Schedule Post

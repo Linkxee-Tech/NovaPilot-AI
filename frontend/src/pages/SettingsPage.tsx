@@ -93,8 +93,9 @@ const SettingsPage = () => {
                                 <h2 className="text-lg font-semibold text-slate-900 dark:text-white border-b border-slate-800 pb-4">Social Account Management</h2>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     {[
-                                        { name: 'LinkedIn', connected: true, user: 'Nova Pilot AI', icon: 'LI' },
-                                        { name: 'Twitter / X', connected: false, icon: 'X' },
+                                        { name: 'LinkedIn', connected: true, user: 'abdullahi-muazu-1a6a4a398', icon: 'LI' },
+                                        { name: 'Twitter / X', connected: true, user: '@Linkxeel', icon: 'X' },
+                                        { name: 'WhatsApp', connected: true, user: '+2347084607844', icon: 'WA' },
                                     ].map((acc) => (
                                         <div key={acc.name} className="p-4 bg-slate-50 dark:bg-slate-800/30 border border-slate-200 dark:border-slate-800 rounded-xl flex items-center justify-between group hover:border-blue-500/30 transition-colors shadow-sm dark:shadow-none">
                                             <div className="flex items-center gap-3">

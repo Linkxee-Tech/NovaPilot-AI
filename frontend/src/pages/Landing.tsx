@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Rocket, Zap, Shield, Target, ArrowRight, Star, CheckCircle2, Linkedin, Facebook, Twitter, MessageCircle, Sun, Moon, Menu, X } from 'lucide-react';
+import { Rocket, Zap, Shield, Target, ArrowRight, Star, CheckCircle2, Linkedin, Twitter, MessageCircle, Sun, Moon, Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Logo from '../components/common/Logo';
 import { useTheme } from '../context/useTheme';
@@ -262,10 +262,33 @@ const Landing = () => {
                 <div className="w-full flex flex-col md:flex-row items-center justify-between gap-8">
                     <div className="flex flex-col items-center md:items-start gap-4">
                         <div className="flex items-center gap-6 text-slate-400 dark:text-slate-500">
-                            <a href="#" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"><MessageCircle size={20} /></a>
-                            <a href="#" className="hover:text-blue-700 dark:hover:text-blue-600 transition-colors"><Facebook size={20} /></a>
-                            <a href="#" className="hover:text-blue-800 dark:hover:text-blue-500 transition-colors"><Linkedin size={20} /></a>
-                            <a href="#" className="hover:text-slate-900 dark:hover:text-white transition-colors"><Twitter size={20} /></a>
+                            <a
+                                href="https://wa.me/2347084607844"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                aria-label="WhatsApp"
+                                className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                            >
+                                <MessageCircle size={20} />
+                            </a>
+                            <a
+                                href="https://www.linkedin.com/in/abdullahi-muazu-1a6a4a398?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                aria-label="LinkedIn"
+                                className="hover:text-blue-800 dark:hover:text-blue-500 transition-colors"
+                            >
+                                <Linkedin size={20} />
+                            </a>
+                            <a
+                                href="https://x.com/Linkxeel"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                aria-label="X (Twitter)"
+                                className="hover:text-slate-900 dark:hover:text-white transition-colors"
+                            >
+                                <Twitter size={20} />
+                            </a>
                         </div>
                         <p className="text-[10px] text-slate-500 dark:text-slate-600 uppercase tracking-[0.2em] font-black flex items-center gap-2">
                             <Star size={10} className="fill-slate-500 dark:fill-slate-600" />

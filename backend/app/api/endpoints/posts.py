@@ -69,11 +69,15 @@ def _validate_upload_file(file: UploadFile) -> None:
         raise HTTPException(status_code=400, detail="Filename is required")
 
     extension = os.path.splitext(file.filename)[1].lower()
-    if extension not in ALLOWED_EXTENSIONS:
+    content_type = (file.content_type or "").lower()
+    is_video_mime = content_type.startswith("video/")
+
+    # Allow all video/* uploads by MIME type, while keeping extension allowlist for non-video files.
+    if extension not in ALLOWED_EXTENSIONS and not is_video_mime:
         allowed = ", ".join(sorted(ALLOWED_EXTENSIONS))
         raise HTTPException(
             status_code=400,
-            detail=f"Unsupported file type. Allowed: {allowed}",
+            detail=f"Unsupported file type. Allowed: {allowed}, or any video/* MIME type.",
         )
 
     # Basic size validation

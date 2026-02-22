@@ -9,6 +9,7 @@ from collections import defaultdict
 import os
 import redis
 from sqlalchemy import text
+from nova_client import generate_post
 from app import models # Ensure all models are registered
 
 from app.core.db import engine, Base
@@ -20,6 +21,12 @@ app = FastAPI(
     description="NovaPilot AI - Powered by Amazon Nova",
     version="2.0.0"
 )
+
+
+@app.get("/test-nova")
+def test_nova():
+    result = generate_post("Generate a professional LinkedIn post about AI automation.")
+    return {"nova_response": result}
 
 # Configure CORS
 # WARNING: allow_origins=["*"] is insecure for production.

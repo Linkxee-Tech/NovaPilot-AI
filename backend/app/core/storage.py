@@ -1,20 +1,13 @@
 import logging
-import os
-import boto3
 from botocore.exceptions import ClientError
 from app.core.config import settings
+from app.core.aws import get_aws_client
 
 logger = logging.getLogger(__name__)
 
 class StorageService:
     def __init__(self):
-        # Initialize boto3 client
-        self.client = boto3.client(
-            's3',
-            region_name=settings.AWS_REGION,
-            aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
-            aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY
-        )
+        self.client = get_aws_client("s3")
         self.bucket_name = settings.S3_BUCKET_NAME
 
     async def upload_file(self, file_path: str, destination: str) -> str:

@@ -1,28 +1,58 @@
 import logging
 import json
-import boto3
 from datetime import datetime, timezone
 from typing import Dict, Any, List
+from botocore.exceptions import ClientError
 from app.core.config import settings
+from app.core.aws import get_aws_client
+from app.core.exceptions import PlatformError
 from app.services.nova.browser_executor import BrowserExecutor
 from jsonschema import validate, ValidationError
 from app.models.error_codes import ErrorCode
 
 logger = logging.getLogger(__name__)
+AUTH_ERROR_CODES = {"UnrecognizedClientException", "InvalidClientTokenId", "ExpiredTokenException"}
 
 class NovaActService:
     def __init__(self):
         self.demo_mode = settings.DEMO_MODE
         self.client = None
         if not self.demo_mode:
-            self.client = boto3.client(
-                service_name='bedrock-runtime',
-                region_name=settings.AWS_REGION,
-                aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
-                aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY
-            )
+            self.client = get_aws_client("bedrock-runtime")
         self.model_id = settings.NOVA_ACT_MODEL_ID
         self.browser = None if self.demo_mode else BrowserExecutor()
+
+    @staticmethod
+    def _is_auth_error(exc: ClientError) -> bool:
+        code = exc.response.get("Error", {}).get("Code")
+        return code in AUTH_ERROR_CODES
+
+    def _refresh_client(self) -> None:
+        if not self.demo_mode:
+            self.client = get_aws_client("bedrock-runtime")
+
+    def _converse_with_retry(self, **kwargs) -> dict:
+        if self.client is None:
+            raise RuntimeError("Bedrock client is unavailable")
+        try:
+            return self.client.converse(**kwargs)
+        except ClientError as exc:
+            if not self._is_auth_error(exc):
+                raise
+
+            code = exc.response.get("Error", {}).get("Code", "Unknown")
+            logger.warning("Bedrock auth error (%s). Refreshing client and retrying once.", code)
+            self._refresh_client()
+
+            try:
+                return self.client.converse(**kwargs)
+            except ClientError as retry_exc:
+                if self._is_auth_error(retry_exc):
+                    raise PlatformError(
+                        "AWS credentials/token invalid for Bedrock. "
+                        "Run `aws sts get-caller-identity` and restart the backend."
+                    )
+                raise
 
     def validate_nova_response(self, response: Dict[str, Any], schema: Dict[str, Any]) -> Dict[str, Any]:
         """
@@ -63,7 +93,7 @@ class NovaActService:
         prompt = get_automation_prompt(goal, json.dumps(context))
 
         try:
-            response = self.client.converse(
+            response = self._converse_with_retry(
                 modelId=self.model_id,
                 system=[{"text": NOVA_ACT_SYSTEM_PROMPT}],
                 messages=[{

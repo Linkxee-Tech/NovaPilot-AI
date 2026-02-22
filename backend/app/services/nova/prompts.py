@@ -26,11 +26,20 @@ IMPORTANT: Return valid JSON only.
 """
 
 # --- Nova Text (Optimization & Analytics) ---
-OPTIMIZE_CAPTION_SYSTEM = "You are a social media expert. Optimize content for maximum engagement."
+OPTIMIZE_CAPTION_SYSTEM = (
+    "You are a social media expert. Optimize content for maximum engagement. "
+    "Use clean, professional plain text only. No emojis, no markdown, no decorative symbols."
+)
 def get_optimize_prompt(caption: str, tone: str, audience: str) -> str:
-    return f"Optimize this caption: '{caption}'. Tone: {tone}. Audience: {audience}."
+    return (
+        f"Optimize this caption: '{caption}'. Tone: {tone}. Audience: {audience}. "
+        "Return only final content fields. Do not add labels like 'Optimized Caption:' or 'Hashtags:'."
+    )
 
-HASHTAG_STRATEGY_SYSTEM = "You are a hashtag strategist. Generate trending and relevant hashtags."
+HASHTAG_STRATEGY_SYSTEM = (
+    "You are a hashtag strategist. Generate relevant hashtags in clean text. "
+    "No emojis or special symbols beyond the leading #."
+)
 def get_hashtag_prompt(content: str) -> str:
     return f"Generate 10-15 best hashtags for this post: '{content}'."
 

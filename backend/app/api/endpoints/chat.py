@@ -8,6 +8,7 @@ from app.models.chat import AIChatMessage as AIChatMessageModel
 from typing import List
 import logging
 from app.services.ai_service import ai_service
+from app.services.nova.nova_text_service import NovaTextService
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -30,16 +31,31 @@ async def send_chat_message(
     db.add(user_msg)
     db.commit() # Commit to get ID and ensure persistence
     
-    # Construct conversation history
-    # For MVP, we might just send the last few messages or just the current one contextually
-    # ideally we fetch history from DB
-    
-    formatted_messages = [{
-        "role": "user", 
-        "content": [{"text": f"Platform: {request.platform}. Context: {request.prompt}"}]
-    }]
+    ai_text = ""
+    try:
+        optimized = await ai_service.optimize_content(
+            request.prompt,
+            tone="professional",
+            audience=f"{request.platform} audience",
+        )
+        caption = NovaTextService._sanitize_caption(optimized.get("optimized_caption", ""))
+        ai_text = caption
+    except Exception as optimize_exc:
+        logger.warning("Structured caption generation failed, falling back to chat: %s", optimize_exc)
 
-    ai_text = await ai_service.chat(formatted_messages)
+        formatted_messages = [{
+            "role": "user",
+            "content": [{
+                "text": (
+                    "Write one ready-to-post social media caption in plain text only. "
+                    "No markdown, no bullets, no placeholders, no explanations. "
+                    f"Platform: {request.platform}. User prompt: {request.prompt}"
+                )
+            }]
+        }]
+
+        ai_text = await ai_service.chat(formatted_messages)
+        ai_text = NovaTextService._sanitize_caption(ai_text)
 
     # Save assistant response
     assistant_msg = AIChatMessageModel(

@@ -19,6 +19,18 @@ router = APIRouter()
 def _demo_job_id(prefix: str = "job") -> str:
     return f"demo-{prefix}-{uuid.uuid4().hex[:12]}"
 
+
+async def _heartbeat_mode(websocket: WebSocket) -> None:
+    while True:
+        await asyncio.sleep(5)
+        fallback = {
+            "timestamp": datetime.now().isoformat(),
+            "level": "WARNING",
+            "message": "Event stream unavailable. Waiting for reconnection...",
+            "trace_id": None,
+        }
+        await websocket.send_text(json.dumps(fallback))
+
 @router.websocket("/ws/logs")
 async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
@@ -30,23 +42,24 @@ async def websocket_endpoint(websocket: WebSocket):
     }
     await websocket.send_text(json.dumps(initial))
 
+    # In demo mode, do not attempt Redis pub/sub.
+    if settings.DEMO_MODE:
+        try:
+            await _heartbeat_mode(websocket)
+        except WebSocketDisconnect:
+            logger.info("WebSocket client disconnected from /automation/ws/logs (demo mode)")
+        return
+
     try:
         async for event in subscribe_events():
             await websocket.send_text(json.dumps(event))
     except WebSocketDisconnect:
         logger.info("WebSocket client disconnected from /automation/ws/logs")
     except Exception as exc:
-        logger.warning("Event stream unavailable, falling back to heartbeat: %s", exc)
+        logger.info("Redis event stream unavailable, using heartbeat mode")
+        logger.debug("Event stream fallback reason: %s", exc)
         try:
-            while True:
-                await asyncio.sleep(5)
-                fallback = {
-                    "timestamp": datetime.now().isoformat(),
-                    "level": "WARNING",
-                    "message": "Event stream unavailable. Waiting for reconnection...",
-                    "trace_id": None
-                }
-                await websocket.send_text(json.dumps(fallback))
+            await _heartbeat_mode(websocket)
         except WebSocketDisconnect:
             logger.info("WebSocket client disconnected during fallback mode")
 

@@ -1,8 +1,11 @@
 import logging
 import json
-import boto3
+import re
+import unicodedata
 from datetime import datetime, timedelta, timezone
 from app.core.config import settings
+from app.core.aws import get_aws_client
+from app.core.exceptions import PlatformError
 from app.services.nova.schemas import (
     OptimizedContent,
     HashtagResponse,
@@ -14,26 +17,171 @@ from botocore.exceptions import ClientError
 from typing import Optional, Dict, Any, List
 
 logger = logging.getLogger(__name__)
+AUTH_ERROR_CODES = {"UnrecognizedClientException", "InvalidClientTokenId", "ExpiredTokenException"}
+CAPTION_PREFIX_RE = re.compile(r"^\s*(optimized\s+caption|caption)\s*:\s*", re.IGNORECASE)
+HASHTAG_SECTION_RE = re.compile(r"\n?\s*#+\s*hashtags?\s*:.*$", re.IGNORECASE | re.DOTALL)
+CONTROL_CHAR_RE = re.compile(r"[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]")
+ZERO_WIDTH_RE = re.compile(r"[\u200B-\u200D\uFEFF]")
+MULTI_SPACE_RE = re.compile(r"[ \t]{2,}")
+MULTI_NEWLINE_RE = re.compile(r"\n{3,}")
+SMART_PUNCT_MAP = str.maketrans(
+    {
+        "\u2018": "'",
+        "\u2019": "'",
+        "\u201C": '"',
+        "\u201D": '"',
+        "\u2013": "-",
+        "\u2014": "-",
+        "\u2026": "...",
+        "\u00A0": " ",
+    }
+)
 
 class NovaTextService:
     def __init__(self):
         self.demo_mode = settings.DEMO_MODE
         self.client = None
         if not self.demo_mode:
-            self.client = boto3.client(
-                service_name='bedrock-runtime',
-                region_name=settings.AWS_REGION,
-                aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
-                aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY
-            )
+            self.client = get_aws_client("bedrock-runtime")
         self.model_id = settings.NOVA_TEXT_MODEL_ID
+
+    @staticmethod
+    def _is_auth_error(exc: ClientError) -> bool:
+        code = exc.response.get("Error", {}).get("Code")
+        return code in AUTH_ERROR_CODES
+
+    def _refresh_client(self) -> None:
+        if not self.demo_mode:
+            self.client = get_aws_client("bedrock-runtime")
+
+    def _converse_with_retry(self, **kwargs) -> dict:
+        if self.client is None:
+            raise RuntimeError("Bedrock client is unavailable (demo mode enabled)")
+        try:
+            return self.client.converse(**kwargs)
+        except ClientError as exc:
+            if not self._is_auth_error(exc):
+                raise
+
+            code = exc.response.get("Error", {}).get("Code", "Unknown")
+            logger.warning("Bedrock auth error (%s). Refreshing client and retrying once.", code)
+            self._refresh_client()
+
+            try:
+                return self.client.converse(**kwargs)
+            except ClientError as retry_exc:
+                if self._is_auth_error(retry_exc):
+                    raise PlatformError(
+                        "AWS credentials/token invalid for Bedrock. "
+                        "Run `aws sts get-caller-identity` and restart the backend."
+                    )
+                raise
+
+    @staticmethod
+    def _normalize_model_payload(data: Any) -> Any:
+        """
+        Normalize common model responses where fields are wrapped as:
+        {"properties": {"field": {"value": ...}}}
+        """
+        if not isinstance(data, dict):
+            return data
+
+        properties = data.get("properties")
+        if isinstance(properties, dict):
+            normalized = {}
+            found = False
+            for key, value in properties.items():
+                if isinstance(value, dict) and "value" in value:
+                    normalized[key] = value.get("value")
+                    found = True
+            if found:
+                return normalized
+
+        # Fallback: {"field": {"value": ...}, ...}
+        if data and all(isinstance(v, dict) and "value" in v for v in data.values()):
+            return {k: v.get("value") for k, v in data.items()}
+
+        return data
+
+    @staticmethod
+    def _sanitize_text(value: str, allow_newlines: bool = True) -> str:
+        if not isinstance(value, str):
+            return ""
+
+        text = unicodedata.normalize("NFKC", value)
+        text = text.translate(SMART_PUNCT_MAP)
+        text = ZERO_WIDTH_RE.sub("", text)
+        text = CONTROL_CHAR_RE.sub("", text)
+        # Drop symbol glyph noise (emoji/pictographs) that often appears in generated output.
+        text = "".join(ch for ch in text if unicodedata.category(ch) != "So")
+
+        if allow_newlines:
+            text = text.replace("\r\n", "\n").replace("\r", "\n")
+            text = MULTI_NEWLINE_RE.sub("\n\n", text)
+        else:
+            text = text.replace("\r", " ").replace("\n", " ")
+
+        text = MULTI_SPACE_RE.sub(" ", text)
+        return text.strip()
+
+    @classmethod
+    def _sanitize_caption(cls, value: str) -> str:
+        text = cls._sanitize_text(value, allow_newlines=True)
+        text = CAPTION_PREFIX_RE.sub("", text)
+        text = HASHTAG_SECTION_RE.sub("", text).strip()
+        if (text.startswith('"') and text.endswith('"')) or (text.startswith("'") and text.endswith("'")):
+            text = text[1:-1].strip()
+        return text
+
+    @classmethod
+    def _sanitize_hashtags(cls, values: Any) -> List[str]:
+        if not isinstance(values, list):
+            return []
+
+        seen: set[str] = set()
+        cleaned: List[str] = []
+        for item in values:
+            raw = cls._sanitize_text(str(item), allow_newlines=False)
+            raw = raw.lstrip("#")
+            raw = re.sub(r"[^A-Za-z0-9_]+", "", raw)
+            if not raw:
+                continue
+            tag = f"#{raw}"
+            key = tag.lower()
+            if key in seen:
+                continue
+            seen.add(key)
+            cleaned.append(tag)
+
+        return cleaned[:15]
+
+    @classmethod
+    def _sanitize_response_payload(cls, payload: Dict[str, Any]) -> Dict[str, Any]:
+        data = dict(payload)
+
+        if isinstance(data.get("optimized_caption"), str):
+            data["optimized_caption"] = cls._sanitize_caption(data["optimized_caption"])
+
+        if "hashtags" in data:
+            data["hashtags"] = cls._sanitize_hashtags(data.get("hashtags"))
+
+        if isinstance(data.get("engagement_tips"), list):
+            tips: List[str] = []
+            for tip in data["engagement_tips"]:
+                cleaned = cls._sanitize_text(str(tip), allow_newlines=False)
+                if cleaned:
+                    tips.append(cleaned)
+            data["engagement_tips"] = tips[:10]
+
+        if isinstance(data.get("reasoning"), str):
+            data["reasoning"] = cls._sanitize_text(data["reasoning"], allow_newlines=True)
+
+        return data
 
     def _invoke_nova(self, system_prompt: str, user_prompt: str, response_model=None) -> dict:
         """
         Helper to invoke Amazon Nova Pro and parse structured JSON response.
         """
-        if self.client is None:
-            raise RuntimeError("Bedrock client is unavailable (demo mode enabled)")
         try:
             # Construct the prompt with strict JSON requirements
             formatted_prompt = f"""
@@ -43,7 +191,7 @@ class NovaTextService:
             Match this schema: {response_model.model_json_schema() if response_model else 'JSON'}
             """
 
-            response = self.client.converse(
+            response = self._converse_with_retry(
                 modelId=self.model_id,
                 messages=[{
                     "role": "user",
@@ -66,17 +214,20 @@ class NovaTextService:
                 response_text = response_text.split("```")[1].split("```")[0].strip()
 
             data = json.loads(response_text)
+            data = self._normalize_model_payload(data)
             
             if response_model:
                 try:
                     validated = response_model(**data)
-                    return validated.model_dump()
+                    return self._sanitize_response_payload(validated.model_dump())
                 except Exception as e:
                     logger.error(f"Schema validation failed: {e}. Raw: {data}")
                     raise ValueError("Nova response did not match expected schema")
             
             return data
 
+        except PlatformError:
+            raise
         except ClientError as e:
             logger.error(f"Amazon Bedrock ClientError: {e}")
             raise
@@ -278,7 +429,7 @@ class NovaTextService:
             # Use same model as other text services
             model_id = self.model_id
             
-            response = self.client.converse(
+            response = self._converse_with_retry(
                 modelId=model_id,
                 messages=messages,
                 inferenceConfig={
@@ -286,7 +437,8 @@ class NovaTextService:
                     "temperature": 0.7
                 }
             )
-            return response['output']['message']['content'][0]['text']
+            raw_text = response['output']['message']['content'][0]['text']
+            return self._sanitize_text(raw_text, allow_newlines=True)
         except Exception as e:
             logger.error(f"Nova Chat Error: {e}")
             if self.demo_mode:

@@ -20,8 +20,13 @@ export const useSocket = (path: string = '/automation/ws/logs') => {
     const socketRef = useRef<WebSocket | null>(null);
 
     useEffect(() => {
-        const baseUrl = import.meta.env.VITE_API_URL?.replace('http', 'ws') || 'ws://localhost:8000/api/v1';
-        const url = `${baseUrl}${path}`;
+        const envApiUrl = (import.meta.env.VITE_API_URL || '').trim();
+        const fallbackWsBase = `${window.location.protocol === 'https:' ? 'wss' : 'ws'}://${window.location.host}/api/v1`;
+        const wsBaseUrl = envApiUrl
+            ? envApiUrl.replace(/^http/i, 'ws').replace(/\/+$/, '')
+            : fallbackWsBase;
+        const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+        const url = `${wsBaseUrl}${normalizedPath}`;
 
         const connect = () => {
             const socket = new WebSocket(url);

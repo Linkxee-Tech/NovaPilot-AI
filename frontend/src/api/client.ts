@@ -2,8 +2,11 @@ import axios from 'axios';
 import { toast } from 'sonner';
 import { normalizeApiErrorMessage } from '../utils/apiError';
 
+const envApiUrl = (import.meta.env.VITE_API_URL || '').trim();
+const resolvedApiBaseUrl = envApiUrl ? envApiUrl.replace(/\/+$/, '') : '/api/v1';
+
 const client = axios.create({
-    baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8000/api/v1',
+    baseURL: resolvedApiBaseUrl,
     withCredentials: true,
     headers: {
         'Content-Type': 'application/json',

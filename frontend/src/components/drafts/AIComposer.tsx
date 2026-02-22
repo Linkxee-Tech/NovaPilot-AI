@@ -26,13 +26,64 @@ const AIComposer: React.FC<AIComposerProps> = ({ isOpen, onClose, onApply, draft
         }
     }, [messages]);
 
+    useEffect(() => {
+        if (!isOpen) {
+            return;
+        }
+
+        if (!draftId) {
+            setMessages([]);
+            return;
+        }
+
+        let cancelled = false;
+
+        const loadHistory = async () => {
+            setIsLoading(true);
+            try {
+                const response = await client.get(`/chat/history/${draftId}`);
+                if (cancelled) return;
+
+                const history: Message[] = Array.isArray(response.data)
+                    ? response.data
+                        .map((item: { role?: string; content?: string }): Message => {
+                            const role: Message['role'] = item.role === 'assistant' ? 'assistant' : 'user';
+                            return {
+                                role,
+                                content: String(item.content ?? '').trim()
+                            };
+                        })
+                        .filter((item) => item.content.length > 0)
+                    : [];
+
+                setMessages(history);
+            } catch (error) {
+                console.error('Failed to load chat history:', error);
+                if (!cancelled) {
+                    setMessages([]);
+                }
+            } finally {
+                if (!cancelled) {
+                    setIsLoading(false);
+                }
+            }
+        };
+
+        loadHistory();
+
+        return () => {
+            cancelled = true;
+        };
+    }, [isOpen, draftId]);
+
     if (!isOpen) return null;
 
     const handleSend = async () => {
         if (!input.trim() || isLoading) return;
 
         const userMsg: Message = { role: 'user', content: input };
-        setMessages([...messages, userMsg]);
+        const nextMessages = [...messages, userMsg];
+        setMessages(nextMessages);
         setInput('');
         setIsLoading(true);
 
@@ -40,7 +91,8 @@ const AIComposer: React.FC<AIComposerProps> = ({ isOpen, onClose, onApply, draft
             const response = await client.post('/chat/send', {
                 draft_id: draftId || null,
                 platform: 'linkedin',
-                prompt: input
+                prompt: input,
+                history: nextMessages
             });
             const aiMsg: Message = {
                 role: 'assistant',

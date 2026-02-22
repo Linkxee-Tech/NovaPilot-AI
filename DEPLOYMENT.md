@@ -1,53 +1,125 @@
-# Deployment Documentation
+# Deployment Guide
 
-This document provides instructions for deploying NovaPilot AI, including both the backend and frontend components.
+This guide covers production deployment for NovaPilot AI (FastAPI backend + Vite frontend).
 
-## Prerequisites
-- **Node.js**: v18 or later
-- **Python**: v3.10 or later
-- **PostgreSQL**: Optional (can use SQLite for quick deployments)
-- **Redis**: Recommended for production automation tasks
+## 1. Prerequisites
 
-## Backend Deployment (FastAPI)
+- Python 3.11+
+- Node.js 18+
+- PostgreSQL
+- Redis (optional if `REDIS_REQUIRED=false`)
+- Nginx
+- A Linux host with `systemd`
 
-1. **Environment Setup**:
-   - Navigate to the `backend` directory.
-   - Create a virtual environment: `python -m venv venv`
-   - Activate it: `source venv/bin/activate` or `venv\Scripts\activate`
-   - Install dependencies: `pip install -r requirements.txt`
+## 2. Backend Setup
 
-2. **Configuration**:
-   - Rename `.env.example` to `.env` if it doesn't exist.
-   - Update `SECRET_KEY` and database credentials.
-   - Set `USE_SQLITE=true` for local development or small-scale deployments.
+```bash
+cd backend
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
 
-3. **Running the Server**:
-   ```bash
-   uvicorn app.main:app --host 0.0.0.0 --port 8000
-   ```
+Create `backend/.env` (or update it) with production-safe values:
 
-## Frontend Deployment (Vite + React)
+```env
+ENV=production
+ALLOWED_ORIGINS=https://your-frontend-domain.example.com
+SECRET_KEY=<strong-random-secret>
 
-1. **Environment Setup**:
-   - Navigate to the `frontend` directory.
-   - Install dependencies: `npm install`
+USE_SQLITE=false
+DATABASE_URL=postgresql://<user>:<password>@<host>:5432/<db>
 
-2. **Configuration**:
-   - Ensure `.env` has the correct `VITE_API_URL` pointing to your backend.
+REDIS_URL=redis://<host>:6379/0
+REDIS_REQUIRED=true
 
-3. **Build and Serve**:
-   - Create a production build: `npm run build`
-   - The output will be in the `dist` folder.
-   - Serve the `dist` folder using a static file server (Nginx, Vercel, Netlify, etc.).
+DEMO_MODE=false
+AWS_REGION=us-east-1
+AWS_PROFILE=default
+USE_AWS_SECRETS=false
+```
 
-## Production Checklist
-- [ ] Change the `SECRET_KEY` in the backend `.env`.
-- [ ] Use a production-grade database (PostgreSQL).
-- [ ] Configure a reverse proxy like Nginx to serve the frontend and proxy API requests.
-- [ ] Enable SSL/TLS for secure communication.
+## 3. Frontend Setup
 
-## Support
+```bash
+cd frontend
+npm install
+```
 
-For technical support or feature requests, please refer to the internal documentation or contact the development team.
+Set frontend API URL:
 
-© 2026 NovaPilot AI.
+```env
+VITE_API_URL=https://your-api-domain.example.com/api/v1
+```
+
+Build static assets:
+
+```bash
+npm run build
+```
+
+## 4. Process Manager (`systemd`)
+
+Use template file:
+
+- `deploy/systemd/novapilot-backend.service.example`
+
+Install it as `/etc/systemd/system/novapilot-backend.service`, then:
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable novapilot-backend
+sudo systemctl start novapilot-backend
+sudo systemctl status novapilot-backend
+```
+
+## 5. Reverse Proxy (Nginx)
+
+Use template file:
+
+- `deploy/nginx/novapilot.conf.example`
+
+Copy to `/etc/nginx/sites-available/novapilot.conf`, create symlink in `sites-enabled`, then:
+
+```bash
+sudo nginx -t
+sudo systemctl reload nginx
+```
+
+## 6. SSL/TLS
+
+Install TLS cert with Certbot (example for Ubuntu + Nginx):
+
+```bash
+sudo apt-get update
+sudo apt-get install -y certbot python3-certbot-nginx
+sudo certbot --nginx -d your-domain.example.com -d www.your-domain.example.com
+```
+
+## 7. Health Checks
+
+Backend:
+
+```bash
+curl -s http://127.0.0.1:8000/health
+curl -s http://127.0.0.1:8000/api/v1/health
+```
+
+Expected:
+
+- `status` = `healthy`
+- `dependencies.database.ok` = `true`
+- `dependencies.redis.effective_ok` = `true`
+
+## 8. Final Production Checklist
+
+- [ ] `ENV=production`
+- [ ] strong `SECRET_KEY`
+- [ ] `ALLOWED_ORIGINS` set to real frontend domain(s)
+- [ ] PostgreSQL configured (`USE_SQLITE=false`)
+- [ ] Redis configured (or `REDIS_REQUIRED=false` intentionally)
+- [ ] Backend running under `systemd` (not `--reload`)
+- [ ] Nginx configured
+- [ ] SSL certificate active
+- [ ] Frontend built with production `VITE_API_URL`
+- [ ] `/health` returns `healthy`

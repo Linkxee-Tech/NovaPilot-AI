@@ -9,6 +9,8 @@ logger = logging.getLogger(__name__)
 class Settings(BaseSettings):
     PROJECT_NAME: str = "NovaPilot AI"
     API_V1_STR: str = "/api/v1"
+    ENV: str = "development"
+    ALLOWED_ORIGINS: str = "http://localhost:5173,http://127.0.0.1:5173"
     DEMO_MODE: bool = False
 
     # AWS Secrets Manager configuration
@@ -31,10 +33,11 @@ class Settings(BaseSettings):
 
     @property
     def get_database_url(self) -> str:
-        if self.DATABASE_URL:
-            return self.DATABASE_URL
+        # Explicit sqlite override for local/test runs even when DATABASE_URL is present.
         if self.USE_SQLITE:
             return "sqlite:///./sql_app.db"
+        if self.DATABASE_URL:
+            return self.DATABASE_URL
         return (
             f"postgresql://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}"
             f"@{self.POSTGRES_SERVER}/{self.POSTGRES_DB}"
@@ -58,6 +61,7 @@ class Settings(BaseSettings):
 
     # Redis for Celery
     REDIS_URL: str = "redis://localhost:6379/0"
+    REDIS_REQUIRED: bool = False
 
     model_config = SettingsConfigDict(
         env_file=".env",

@@ -8,18 +8,29 @@ import time
 from collections import defaultdict
 import os
 import redis
+import logging
+from contextlib import asynccontextmanager
 from sqlalchemy import text
 from nova_client import generate_post
 from app import models # Ensure all models are registered
 
 from app.core.db import engine, Base
-# Create tables on startup (simple for dev/MVP)
-Base.metadata.create_all(bind=engine)
+logger = logging.getLogger(__name__)
+
+@asynccontextmanager
+async def lifespan(_: FastAPI):
+    """Initialize database tables without crashing the app on transient DB issues."""
+    try:
+        Base.metadata.create_all(bind=engine)
+    except Exception as exc:
+        logger.exception("Database initialization failed during startup: %s", exc)
+    yield
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
     description="NovaPilot AI - Powered by Amazon Nova",
-    version="2.0.0"
+    version="2.0.0",
+    lifespan=lifespan,
 )
 
 
@@ -31,13 +42,10 @@ def test_nova():
 # Configure CORS
 # WARNING: allow_origins=["*"] is insecure for production.
 # Use environment variables to set specific origins.
-environment = os.getenv("ENV", "development").lower()
+environment = settings.ENV.lower()
 allowed_origins = [
     origin.strip()
-    for origin in os.getenv(
-        "ALLOWED_ORIGINS",
-        "http://localhost:5173,http://127.0.0.1:5173"
-    ).split(",")
+    for origin in settings.ALLOWED_ORIGINS.split(",")
     if origin.strip()
 ]
 allow_origin_regex = None
@@ -173,13 +181,15 @@ async def health_check():
             except Exception:
                 pass
 
-    overall_status = "healthy" if db_ok and redis_ok else "degraded"
+    redis_required = settings.REDIS_REQUIRED
+    redis_effective_ok = redis_ok or not redis_required
+    overall_status = "healthy" if db_ok and redis_effective_ok else "degraded"
 
     return {
         "status": overall_status,
         "timestamp": time.time(),
         "version": "2.0.0",
-        "environment": os.getenv("ENV", "development"),
+        "environment": settings.ENV,
         "features": {
             "ai_engine": True,
             "database": db_ok,
@@ -187,7 +197,12 @@ async def health_check():
         },
         "dependencies": {
             "database": {"ok": db_ok, "error": db_error},
-            "redis": {"ok": redis_ok, "error": redis_error},
+            "redis": {
+                "ok": redis_ok,
+                "required": redis_required,
+                "effective_ok": redis_effective_ok,
+                "error": redis_error,
+            },
         },
     }
 

@@ -17,7 +17,12 @@ from botocore.exceptions import ClientError
 from typing import Optional, Dict, Any, List
 
 logger = logging.getLogger(__name__)
-AUTH_ERROR_CODES = {"UnrecognizedClientException", "InvalidClientTokenId", "ExpiredTokenException"}
+AUTH_ERROR_CODES = {
+    "UnrecognizedClientException",
+    "InvalidClientTokenId",
+    "ExpiredTokenException",
+    "AccessDeniedException",
+}
 CAPTION_PREFIX_RE = re.compile(r"^\s*(optimized\s+caption|caption)\s*:\s*", re.IGNORECASE)
 HASHTAG_SECTION_RE = re.compile(r"\n?\s*#+\s*hashtags?\s*:.*$", re.IGNORECASE | re.DOTALL)
 CONTROL_CHAR_RE = re.compile(r"[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]")
@@ -229,8 +234,16 @@ class NovaTextService:
         except PlatformError:
             raise
         except ClientError as e:
-            logger.error(f"Amazon Bedrock ClientError: {e}")
-            raise
+            error_info = e.response.get("Error", {})
+            code = error_info.get("Code", "Unknown")
+            message = error_info.get("Message", str(e))
+            logger.error("Amazon Bedrock ClientError [%s]: %s", code, message)
+            if code in AUTH_ERROR_CODES:
+                raise PlatformError(
+                    "AWS credentials/token invalid for Bedrock. "
+                    "Run `aws sts get-caller-identity` and restart the backend."
+                )
+            raise PlatformError(f"Bedrock request failed ({code}): {message}")
         except Exception as e:
             logger.error(f"Nova Text Service Error: {e}")
             raise

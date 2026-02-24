@@ -2,7 +2,7 @@ import axios from 'axios';
 import { toast } from 'sonner';
 import { normalizeApiErrorMessage } from '../utils/apiError';
 
-const envApiUrl = (import.meta.env.VITE_API_URL || '').trim();
+const envApiUrl = (import.meta.env.VITE_API_URL || import.meta.env.NEXT_PUBLIC_API_URL || '').trim();
 const resolvedApiBaseUrl = envApiUrl ? envApiUrl.replace(/\/+$/, '') : '/api/v1';
 
 const client = axios.create({

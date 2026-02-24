@@ -1,0 +1,14 @@
+﻿{
+    "HostedZones": [
+        {
+            "Id": "/hostedzone/Z05378552USW8YM06SE8I",
+            "Name": "novapilot.ai.",
+            "CallerReference": "novapilot-1771801022",
+            "Config": {
+                "Comment": "NovaPilot public zone",
+                "PrivateZone": false
+            },
+            "ResourceRecordSetCount": 8
+        }
+    ]
+}

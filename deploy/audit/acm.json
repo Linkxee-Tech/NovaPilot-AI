@@ -1,0 +1,23 @@
+﻿{
+    "CertificateSummaryList": [
+        {
+            "CertificateArn": "arn:aws:acm:us-east-1:625455455893:certificate/993212dc-e5f9-440e-97f0-22fa50bb4074",
+            "DomainName": "novapilot.ai",
+            "SubjectAlternativeNameSummaries": [
+                "novapilot.ai",
+                "www.novapilot.ai"
+            ],
+            "HasAdditionalSubjectAlternativeNames": false,
+            "Status": "PENDING_VALIDATION",
+            "Type": "AMAZON_ISSUED",
+            "KeyAlgorithm": "RSA-2048",
+            "KeyUsages": [],
+            "ExtendedKeyUsages": [],
+            "ExportOption": "DISABLED",
+            "InUse": false,
+            "Exported": false,
+            "RenewalEligibility": "INELIGIBLE",
+            "CreatedAt": "2026-02-22T23:38:11.942000+01:00"
+        }
+    ]
+}

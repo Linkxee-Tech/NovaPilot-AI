@@ -1,0 +1,60 @@
+﻿[
+    {
+        "status":  200,
+        "response":  {
+                         "status":  "degraded",
+                         "timestamp":  1771906732.3826776,
+                         "version":  "2.0.0",
+                         "environment":  "production",
+                         "features":  {
+                                          "ai_engine":  true,
+                                          "database":  false,
+                                          "storage":  true
+                                      },
+                         "dependencies":  {
+                                              "database":  {
+                                                               "ok":  false,
+                                                               "error":  "(psycopg2.OperationalError) connection to server at \"novapilot-postgres.ca3uowigeiot.us-east-1.rds.amazonaws.com\" (172.31.12.172), port 5432 failed: FATAL:  password authentication failed for user \"postgres\"\nconnection to server at \"novapilot-postgres.ca3uowigeiot.us-east-1.rds.amazonaws.com\" (172.31.12.172), port 5432 failed: FATAL:  no pg_hba.conf entry for host \"172.31.22.184\", user \"postgres\", database \"postgres\", no encryption\n\n(Background on this error at: https://sqlalche.me/e/20/e3q8)"
+                                                           },
+                                              "redis":  {
+                                                            "ok":  false,
+                                                            "required":  false,
+                                                            "effective_ok":  true,
+                                                            "error":  "Error 111 connecting to localhost:6379. Connection refused."
+                                                        }
+                                          }
+                     },
+        "test":  "health"
+    },
+    {
+        "status":  null,
+        "response":  {
+
+                     },
+        "test":  "register"
+    },
+    {
+        "status":  null,
+        "response":  {
+
+                     },
+        "test":  "login"
+    },
+    {
+        "status":  200,
+        "response":  null,
+        "test":  "test-nova"
+    },
+    {
+        "status":  null,
+        "response":  {
+
+                     },
+        "test":  "create-draft"
+    },
+    {
+        "status":  200,
+        "response":  null,
+        "test":  "list-posts"
+    }
+]

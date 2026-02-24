@@ -1,0 +1,11 @@
+﻿Environment details for: novapilot-backend-env
+  Application name: novapilot-backend
+  Region: us-east-1
+  Deployed Version: app-260222_192459530563
+  Environment ID: e-scamd3xtcp
+  Platform: arn:aws:elasticbeanstalk:us-east-1::platform/Python 3.11 running on 64bit Amazon Linux 2023/4.9.3
+  Tier: WebServer-Standard-1.0
+  CNAME: novapilot-backend-env.eba-iijmtgig.us-east-1.elasticbeanstalk.com
+  Updated: 2026-02-24 04:03:14.701000+00:00
+  Status: Ready
+  Health: Green

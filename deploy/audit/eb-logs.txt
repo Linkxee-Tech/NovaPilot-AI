@@ -1,0 +1,428 @@
+﻿Retrieving logs...
+============= i-0aff584529ab93b1f ==============
+
+----------------------------------------
+/var/log/eb-engine.log
+----------------------------------------
+2026/02/24 03:32:59.786166 [INFO] Running command: systemctl stop xray.service
+2026/02/24 03:32:59.801911 [INFO] Executing instruction: stop proxy
+2026/02/24 03:32:59.801946 [INFO] Running command: systemctl show -p PartOf httpd.service
+2026/02/24 03:32:59.815862 [WARN] deregisterProcess Warning: process httpd is not registered, skipping...
+
+2026/02/24 03:32:59.815894 [INFO] Running command: systemctl show -p PartOf nginx.service
+2026/02/24 03:32:59.828181 [INFO] Running command: systemctl is-active nginx.service
+2026/02/24 03:32:59.835924 [INFO] Running command: systemctl show -p PartOf nginx.service
+2026/02/24 03:32:59.845054 [INFO] Running command: systemctl stop nginx.service
+2026/02/24 03:33:00.114293 [INFO] Running command: systemctl disable nginx.service
+2026/02/24 03:33:00.377001 [INFO] Running command: systemctl daemon-reload
+2026/02/24 03:33:00.635659 [INFO] Running command: systemctl reset-failed
+2026/02/24 03:33:00.643262 [INFO] Executing instruction: FlipApplication
+2026/02/24 03:33:00.643284 [INFO] Fetching environment variables...
+2026/02/24 03:33:00.643450 [INFO] Purge old process...
+2026/02/24 03:33:00.643468 [INFO] Running command: systemctl stop eb-app.target
+2026/02/24 03:33:00.652024 [INFO] Running command: systemctl show -p ConsistsOf eb-app.target | cut -d= -f2
+2026/02/24 03:33:00.661748 [INFO] web.service
+
+2026/02/24 03:33:00.661774 [INFO] deregistering process: web
+2026/02/24 03:33:00.661784 [INFO] Running command: systemctl show -p PartOf web.service
+2026/02/24 03:33:00.672259 [INFO] Running command: systemctl is-active web.service
+2026/02/24 03:33:00.679583 [INFO] Running command: systemctl disable web.service
+2026/02/24 03:33:00.978815 [INFO] Removed "/etc/systemd/system/multi-user.target.wants/web.service".
+
+2026/02/24 03:33:00.978886 [INFO] Running command: systemctl daemon-reload
+2026/02/24 03:33:01.285216 [INFO] Running command: systemctl reset-failed
+2026/02/24 03:33:01.296740 [INFO] Running command: systemctl is-active web.service
+2026/02/24 03:33:01.308327 [INFO] Process web has not been fully terminated
+2026/02/24 03:33:01.308354 [INFO] Some processes have not been fully terminated, sleeping 1 seconds now
+2026/02/24 03:33:02.308477 [INFO] Running command: systemctl is-active web.service
+2026/02/24 03:33:02.328183 [INFO] Process web has been fully terminated
+2026/02/24 03:33:02.328207 [INFO] All processes have been fully terminated
+2026/02/24 03:33:02.328211 [INFO] Removing /var/app/current/ if it exists
+2026/02/24 03:33:02.342225 [INFO] Renaming /var/app/staging/ to /var/app/current/
+2026/02/24 03:33:02.342263 [INFO] Register application processes...
+2026/02/24 03:33:02.342268 [INFO] Registering the proc: web
+
+2026/02/24 03:33:02.342283 [INFO] Running command: systemctl show -p PartOf web.service
+2026/02/24 03:33:02.376792 [INFO] Running command: systemctl daemon-reload
+2026/02/24 03:33:02.650509 [INFO] Running command: systemctl reset-failed
+2026/02/24 03:33:02.659207 [INFO] Running command: systemctl is-enabled eb-app.target
+2026/02/24 03:33:02.667464 [INFO] Running command: systemctl enable eb-app.target
+2026/02/24 03:33:02.944898 [INFO] Running command: systemctl start eb-app.target
+2026/02/24 03:33:02.954527 [INFO] Running command: systemctl enable web.service
+2026/02/24 03:33:03.224745 [INFO] Created symlink /etc/systemd/system/multi-user.target.wants/web.service \u2192 /etc/systemd/system/web.service.
+
+2026/02/24 03:33:03.224777 [INFO] Running command: systemctl show -p PartOf web.service
+2026/02/24 03:33:03.235869 [INFO] Running command: systemctl is-active web.service
+2026/02/24 03:33:03.243291 [INFO] Running command: systemctl start web.service
+2026/02/24 03:33:03.287457 [INFO] Executing instruction: start X-Ray
+2026/02/24 03:33:03.287478 [INFO] X-Ray is not enabled.
+2026/02/24 03:33:03.287482 [INFO] Executing instruction: start proxy with new configuration
+2026/02/24 03:33:03.287503 [INFO] Running command: /usr/sbin/nginx -t -c /var/proxy/staging/nginx/nginx.conf
+2026/02/24 03:33:03.314005 [INFO] nginx: [warn] could not build optimal types_hash, you should increase either types_hash_max_size: 1024 or types_hash_bucket_size: 64; ignoring types_hash_bucket_size
+nginx: the configuration file /var/proxy/staging/nginx/nginx.conf syntax is ok
+nginx: configuration file /var/proxy/staging/nginx/nginx.conf test is successful
+
+2026/02/24 03:33:03.314311 [INFO] Running command: cp -rp /var/proxy/staging/nginx/* /etc/nginx
+2026/02/24 03:33:03.319244 [INFO] Running command: systemctl show -p PartOf nginx.service
+2026/02/24 03:33:03.341472 [INFO] Running command: systemctl daemon-reload
+2026/02/24 03:33:03.738452 [INFO] Running command: systemctl reset-failed
+2026/02/24 03:33:03.751104 [INFO] Running command: systemctl show -p PartOf nginx.service
+2026/02/24 03:33:03.771278 [INFO] Running command: systemctl is-active nginx.service
+2026/02/24 03:33:03.785259 [INFO] Running command: systemctl start nginx.service
+2026/02/24 03:33:03.970202 [INFO] Executing instruction: configureSqsd
+2026/02/24 03:33:03.970224 [INFO] This is a web server environment instance, skip configure sqsd daemon ...
+2026/02/24 03:33:03.970229 [INFO] Executing instruction: startSqsd
+2026/02/24 03:33:03.970232 [INFO] This is a web server environment instance, skip start sqsd daemon ...
+2026/02/24 03:33:03.970235 [INFO] Executing instruction: Track pids in healthd
+2026/02/24 03:33:03.970239 [INFO] This is an enhanced health env...
+2026/02/24 03:33:03.970252 [INFO] Running command: systemctl show -p ConsistsOf aws-eb.target | cut -d= -f2
+2026/02/24 03:33:03.987256 [INFO] nginx.service cfn-hup.service healthd.service
+
+2026/02/24 03:33:03.987301 [INFO] Running command: systemctl show -p ConsistsOf eb-app.target | cut -d= -f2
+2026/02/24 03:33:04.004004 [INFO] web.service
+
+2026/02/24 03:33:04.004271 [INFO] Executing instruction: RunConfigDeployPostDeployHooks
+2026/02/24 03:33:04.004370 [INFO] Executing platform hooks in .platform/confighooks/postdeploy/
+2026/02/24 03:33:04.004390 [INFO] The dir .platform/confighooks/postdeploy/ does not exist
+2026/02/24 03:33:04.004394 [INFO] Finished running scripts in /var/app/current/.platform/confighooks/postdeploy
+2026/02/24 03:33:04.004401 [INFO] Executing cleanup logic
+2026/02/24 03:33:04.004502 [INFO] CommandService Response: {"status":"SUCCESS","api_version":"1.0","results":[{"status":"SUCCESS","msg":"Engine execution has succeeded.","returncode":0,"events":[{"msg":"Instance deployment used the commands in your 'Procfile' to initiate startup of your application.","timestamp":1771903977242,"severity":"INFO"},{"msg":"Instance deployment completed successfully.","timestamp":1771903984004,"severity":"INFO"}]}]}
+
+2026/02/24 03:33:04.005702 [INFO] Platform Engine finished execution on command: config-deploy
+
+2026/02/24 04:03:09.315224 [INFO] Starting...
+2026/02/24 04:03:09.315271 [INFO] Starting EBPlatform-PlatformEngine
+2026/02/24 04:03:09.315297 [INFO] reading event message file
+2026/02/24 04:03:09.315617 [INFO] Engine received EB command cfn-hup-exec
+
+2026/02/24 04:03:09.393539 [INFO] Running command: /opt/aws/bin/cfn-get-metadata -s arn:aws:cloudformation:us-east-1:625455455893:stack/awseb-e-scamd3xtcp-stack/456603f0-0fef-11f1-a0f1-12a543ef6fe9 -r AWSEBAutoScalingGroup --region us-east-1
+2026/02/24 04:03:09.692470 [INFO] Running command: /opt/aws/bin/cfn-get-metadata -s arn:aws:cloudformation:us-east-1:625455455893:stack/awseb-e-scamd3xtcp-stack/456603f0-0fef-11f1-a0f1-12a543ef6fe9 -r AWSEBBeanstalkMetadata --region us-east-1
+2026/02/24 04:03:10.010654 [INFO] checking whether command tail-log is applicable to this instance...
+2026/02/24 04:03:10.010667 [INFO] this command is applicable to the instance, thus instance should execute command
+2026/02/24 04:03:10.010671 [INFO] Engine command: (tail-log)
+
+2026/02/24 04:03:10.010712 [INFO] Executing instruction: GetTailLogs
+2026/02/24 04:03:10.010715 [INFO] Tail Logs...
+2026/02/24 04:03:10.011082 [INFO] Running command: tail -n 100 /var/log/eb-engine.log
+
+
+----------------------------------------
+/var/log/eb-hooks.log
+----------------------------------------
+
+
+----------------------------------------
+/var/log/nginx/access.log
+----------------------------------------
+172.31.6.57 - - [24/Feb/2026:03:50:45 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.31.16 - - [24/Feb/2026:03:50:53 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.6.57 - - [24/Feb/2026:03:51:00 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.31.16 - - [24/Feb/2026:03:51:08 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.6.57 - - [24/Feb/2026:03:51:15 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.31.16 - - [24/Feb/2026:03:51:23 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.6.57 - - [24/Feb/2026:03:51:30 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.31.16 - - [24/Feb/2026:03:51:38 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.6.57 - - [24/Feb/2026:03:51:45 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.31.16 - - [24/Feb/2026:03:51:53 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.6.57 - - [24/Feb/2026:03:52:00 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.31.16 - - [24/Feb/2026:03:52:08 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.6.57 - - [24/Feb/2026:03:52:15 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.31.16 - - [24/Feb/2026:03:52:23 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.6.57 - - [24/Feb/2026:03:52:30 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.31.16 - - [24/Feb/2026:03:52:38 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.6.57 - - [24/Feb/2026:03:52:45 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.31.16 - - [24/Feb/2026:03:52:53 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.6.57 - - [24/Feb/2026:03:53:00 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.31.16 - - [24/Feb/2026:03:53:08 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.6.57 - - [24/Feb/2026:03:53:15 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.31.16 - - [24/Feb/2026:03:53:23 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.6.57 - - [24/Feb/2026:03:53:30 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.31.16 - - [24/Feb/2026:03:53:38 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.6.57 - - [24/Feb/2026:03:53:45 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.31.16 - - [24/Feb/2026:03:53:53 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.6.57 - - [24/Feb/2026:03:54:00 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.31.16 - - [24/Feb/2026:03:54:08 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.6.57 - - [24/Feb/2026:03:54:15 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.31.16 - - [24/Feb/2026:03:54:23 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.6.57 - - [24/Feb/2026:03:54:30 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.31.16 - - [24/Feb/2026:03:54:38 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.6.57 - - [24/Feb/2026:03:54:45 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.31.16 - - [24/Feb/2026:03:54:53 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.6.57 - - [24/Feb/2026:03:55:00 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.31.16 - - [24/Feb/2026:03:55:08 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.6.57 - - [24/Feb/2026:03:55:15 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.31.16 - - [24/Feb/2026:03:55:23 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.6.57 - - [24/Feb/2026:03:55:30 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.31.16 - - [24/Feb/2026:03:55:38 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.6.57 - - [24/Feb/2026:03:55:45 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.31.16 - - [24/Feb/2026:03:55:53 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.6.57 - - [24/Feb/2026:03:56:01 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.31.16 - - [24/Feb/2026:03:56:08 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.6.57 - - [24/Feb/2026:03:56:16 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.31.16 - - [24/Feb/2026:03:56:23 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.6.57 - - [24/Feb/2026:03:56:31 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.31.16 - - [24/Feb/2026:03:56:38 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.6.57 - - [24/Feb/2026:03:56:46 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.31.16 - - [24/Feb/2026:03:56:53 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.6.57 - - [24/Feb/2026:03:57:01 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.31.16 - - [24/Feb/2026:03:57:08 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.6.57 - - [24/Feb/2026:03:57:16 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.31.16 - - [24/Feb/2026:03:57:23 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.6.57 - - [24/Feb/2026:03:57:31 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.31.16 - - [24/Feb/2026:03:57:38 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.6.57 - - [24/Feb/2026:03:57:46 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.31.16 - - [24/Feb/2026:03:57:53 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.6.57 - - [24/Feb/2026:03:58:01 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.31.16 - - [24/Feb/2026:03:58:08 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.6.57 - - [24/Feb/2026:03:58:16 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.31.16 - - [24/Feb/2026:03:58:23 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.6.57 - - [24/Feb/2026:03:58:31 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.31.16 - - [24/Feb/2026:03:58:38 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.6.57 - - [24/Feb/2026:03:58:46 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.31.16 - - [24/Feb/2026:03:58:53 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.6.57 - - [24/Feb/2026:03:59:01 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.31.16 - - [24/Feb/2026:03:59:08 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.6.57 - - [24/Feb/2026:03:59:16 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.31.16 - - [24/Feb/2026:03:59:23 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.6.57 - - [24/Feb/2026:03:59:31 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.31.16 - - [24/Feb/2026:03:59:38 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.6.57 - - [24/Feb/2026:03:59:46 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.31.16 - - [24/Feb/2026:03:59:53 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.6.57 - - [24/Feb/2026:04:00:01 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.31.16 - - [24/Feb/2026:04:00:08 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.6.57 - - [24/Feb/2026:04:00:16 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.31.16 - - [24/Feb/2026:04:00:23 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.6.57 - - [24/Feb/2026:04:00:31 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.31.16 - - [24/Feb/2026:04:00:38 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.6.57 - - [24/Feb/2026:04:00:46 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.31.16 - - [24/Feb/2026:04:00:53 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.6.57 - - [24/Feb/2026:04:01:01 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.31.16 - - [24/Feb/2026:04:01:08 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.6.57 - - [24/Feb/2026:04:01:16 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.31.16 - - [24/Feb/2026:04:01:23 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.6.57 - - [24/Feb/2026:04:01:31 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.31.16 - - [24/Feb/2026:04:01:38 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.6.57 - - [24/Feb/2026:04:01:46 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.31.16 - - [24/Feb/2026:04:01:53 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.6.57 - - [24/Feb/2026:04:02:01 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.31.16 - - [24/Feb/2026:04:02:08 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.6.57 - - [24/Feb/2026:04:02:16 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.31.16 - - [24/Feb/2026:04:02:23 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.6.57 - - [24/Feb/2026:04:02:31 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.31.16 - - [24/Feb/2026:04:02:38 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.6.57 - - [24/Feb/2026:04:02:46 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.31.16 - - [24/Feb/2026:04:02:53 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.6.57 - - [24/Feb/2026:04:03:01 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+172.31.31.16 - - [24/Feb/2026:04:03:08 +0000] "GET / HTTP/1.1" 200 102 "-" "ELB-HealthChecker/2.0" "-"
+
+
+----------------------------------------
+/var/log/nginx/error.log
+----------------------------------------
+2026/02/22 18:15:49 [error] 2221#2221: *5033 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.6.57, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:15:49 [error] 2221#2221: *5035 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.31.16, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "3.231.240.162"
+2026/02/22 18:15:57 [error] 2221#2221: *5037 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.31.16, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:16:04 [error] 2221#2221: *5039 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.6.57, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:16:12 [error] 2221#2221: *5041 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.31.16, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:16:19 [error] 2221#2221: *5043 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.6.57, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:16:27 [error] 2221#2221: *5045 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.31.16, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:16:34 [error] 2221#2221: *5047 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.6.57, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:16:42 [error] 2221#2221: *5049 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.31.16, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:16:49 [error] 2221#2221: *5051 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.6.57, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:16:57 [error] 2221#2221: *5053 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.31.16, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:17:04 [error] 2221#2221: *5055 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.6.57, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:17:12 [error] 2221#2221: *5057 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.31.16, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:17:19 [error] 2222#2222: *5059 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.6.57, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:17:27 [error] 2222#2222: *5061 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.31.16, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:17:34 [error] 2222#2222: *5063 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.6.57, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:17:42 [error] 2222#2222: *5065 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.31.16, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:17:49 [error] 2222#2222: *5067 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.6.57, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:17:57 [error] 2222#2222: *5069 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.31.16, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:18:04 [error] 2222#2222: *5071 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.6.57, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:18:12 [error] 2222#2222: *5073 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.31.16, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:18:19 [error] 2222#2222: *5075 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.6.57, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:18:27 [error] 2222#2222: *5077 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.31.16, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:18:34 [error] 2222#2222: *5079 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.6.57, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:18:42 [error] 2222#2222: *5081 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.31.16, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:18:49 [error] 2222#2222: *5083 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.6.57, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:18:57 [error] 2222#2222: *5085 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.31.16, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:19:04 [error] 2222#2222: *5087 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.6.57, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:19:12 [error] 2222#2222: *5089 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.31.16, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:19:19 [error] 2221#2221: *5091 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.6.57, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:19:27 [error] 2221#2221: *5093 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.31.16, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:19:34 [error] 2221#2221: *5095 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.6.57, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:19:42 [error] 2221#2221: *5097 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.31.16, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:19:49 [error] 2221#2221: *5099 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.6.57, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:19:57 [error] 2221#2221: *5101 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.31.16, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:20:04 [error] 2221#2221: *5103 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.6.57, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:20:12 [error] 2221#2221: *5105 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.31.16, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:20:19 [error] 2221#2221: *5107 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.6.57, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:20:27 [error] 2221#2221: *5109 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.31.16, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:20:34 [error] 2221#2221: *5111 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.6.57, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:20:42 [error] 2221#2221: *5113 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.31.16, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:20:49 [error] 2221#2221: *5115 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.6.57, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:20:57 [error] 2221#2221: *5117 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.31.16, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:21:04 [error] 2221#2221: *5119 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.6.57, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:21:12 [error] 2221#2221: *5121 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.31.16, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:21:19 [error] 2222#2222: *5123 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.6.57, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:21:27 [error] 2222#2222: *5125 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.31.16, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:21:34 [error] 2222#2222: *5127 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.6.57, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:21:42 [error] 2222#2222: *5129 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.31.16, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:21:49 [error] 2222#2222: *5131 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.6.57, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:21:57 [error] 2222#2222: *5133 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.31.16, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:22:04 [error] 2222#2222: *5135 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.6.57, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:22:12 [error] 2222#2222: *5137 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.31.16, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:22:19 [error] 2222#2222: *5139 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.6.57, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:22:27 [error] 2222#2222: *5141 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.31.16, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:22:34 [error] 2222#2222: *5143 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.6.57, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:22:42 [error] 2222#2222: *5145 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.31.16, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:22:49 [error] 2222#2222: *5147 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.6.57, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:22:57 [error] 2222#2222: *5149 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.31.16, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:23:04 [error] 2222#2222: *5151 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.6.57, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:23:12 [error] 2222#2222: *5153 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.31.16, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:23:19 [error] 2221#2221: *5155 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.6.57, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:23:27 [error] 2221#2221: *5157 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.31.16, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:23:34 [error] 2221#2221: *5159 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.6.57, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:23:42 [error] 2221#2221: *5161 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.31.16, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:23:49 [error] 2221#2221: *5163 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.6.57, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:23:57 [error] 2221#2221: *5165 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.31.16, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:24:04 [error] 2221#2221: *5167 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.6.57, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:24:12 [error] 2221#2221: *5169 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.31.16, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:24:19 [error] 2221#2221: *5171 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.6.57, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:24:27 [error] 2221#2221: *5173 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.31.16, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:24:34 [error] 2221#2221: *5175 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.6.57, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:24:42 [error] 2221#2221: *5177 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.31.16, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:24:49 [error] 2221#2221: *5179 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.6.57, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:24:57 [error] 2221#2221: *5181 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.31.16, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:25:04 [error] 2221#2221: *5183 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.6.57, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:25:13 [error] 2221#2221: *5185 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.31.16, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:25:19 [error] 2222#2222: *5187 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.6.57, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:25:28 [error] 2222#2222: *5189 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.31.16, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:25:34 [error] 2222#2222: *5191 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.6.57, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:25:43 [error] 2222#2222: *5193 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.31.16, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:25:49 [error] 2222#2222: *5195 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.6.57, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:25:58 [error] 2222#2222: *5197 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.31.16, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:26:04 [error] 2222#2222: *5199 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.6.57, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:26:16 [warn] 14429#14429: could not build optimal types_hash, you should increase either types_hash_max_size: 1024 or types_hash_bucket_size: 64; ignoring types_hash_bucket_size
+2026/02/22 18:26:17 [warn] 14463#14463: could not build optimal types_hash, you should increase either types_hash_max_size: 1024 or types_hash_bucket_size: 64; ignoring types_hash_bucket_size
+2026/02/22 18:26:17 [warn] 14464#14464: could not build optimal types_hash, you should increase either types_hash_max_size: 1024 or types_hash_bucket_size: 64; ignoring types_hash_bucket_size
+2026/02/22 18:26:19 [error] 14467#14467: *1 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.6.57, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "172.31.22.184"
+2026/02/22 18:32:19 [warn] 15190#15190: could not build optimal types_hash, you should increase either types_hash_max_size: 1024 or types_hash_bucket_size: 64; ignoring types_hash_bucket_size
+2026/02/22 18:32:20 [warn] 15224#15224: could not build optimal types_hash, you should increase either types_hash_max_size: 1024 or types_hash_bucket_size: 64; ignoring types_hash_bucket_size
+2026/02/22 18:32:20 [warn] 15225#15225: could not build optimal types_hash, you should increase either types_hash_max_size: 1024 or types_hash_bucket_size: 64; ignoring types_hash_bucket_size
+2026/02/22 22:55:42 [warn] 24867#24867: could not build optimal types_hash, you should increase either types_hash_max_size: 1024 or types_hash_bucket_size: 64; ignoring types_hash_bucket_size
+2026/02/22 22:55:43 [warn] 24901#24901: could not build optimal types_hash, you should increase either types_hash_max_size: 1024 or types_hash_bucket_size: 64; ignoring types_hash_bucket_size
+2026/02/22 22:55:43 [warn] 24902#24902: could not build optimal types_hash, you should increase either types_hash_max_size: 1024 or types_hash_bucket_size: 64; ignoring types_hash_bucket_size
+2026/02/22 23:09:51 [warn] 25860#25860: could not build optimal types_hash, you should increase either types_hash_max_size: 1024 or types_hash_bucket_size: 64; ignoring types_hash_bucket_size
+2026/02/22 23:09:52 [warn] 25894#25894: could not build optimal types_hash, you should increase either types_hash_max_size: 1024 or types_hash_bucket_size: 64; ignoring types_hash_bucket_size
+2026/02/22 23:09:52 [warn] 25895#25895: could not build optimal types_hash, you should increase either types_hash_max_size: 1024 or types_hash_bucket_size: 64; ignoring types_hash_bucket_size
+2026/02/24 03:33:03 [warn] 104280#104280: could not build optimal types_hash, you should increase either types_hash_max_size: 1024 or types_hash_bucket_size: 64; ignoring types_hash_bucket_size
+2026/02/24 03:33:03 [warn] 104314#104314: could not build optimal types_hash, you should increase either types_hash_max_size: 1024 or types_hash_bucket_size: 64; ignoring types_hash_bucket_size
+2026/02/24 03:33:03 [warn] 104315#104315: could not build optimal types_hash, you should increase either types_hash_max_size: 1024 or types_hash_bucket_size: 64; ignoring types_hash_bucket_size
+
+
+----------------------------------------
+/var/log/web.stdout.log
+----------------------------------------
+Feb 24 03:50:45 ip-172-31-22-184 web[104276]: INFO:     172.31.6.57:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:50:53 ip-172-31-22-184 web[104276]: INFO:     172.31.31.16:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:51:00 ip-172-31-22-184 web[104276]: INFO:     172.31.6.57:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:51:08 ip-172-31-22-184 web[104276]: INFO:     172.31.31.16:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:51:15 ip-172-31-22-184 web[104276]: INFO:     172.31.6.57:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:51:23 ip-172-31-22-184 web[104276]: INFO:     172.31.31.16:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:51:30 ip-172-31-22-184 web[104276]: INFO:     172.31.6.57:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:51:38 ip-172-31-22-184 web[104276]: INFO:     172.31.31.16:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:51:45 ip-172-31-22-184 web[104276]: INFO:     172.31.6.57:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:51:53 ip-172-31-22-184 web[104276]: INFO:     172.31.31.16:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:52:00 ip-172-31-22-184 web[104276]: INFO:     172.31.6.57:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:52:08 ip-172-31-22-184 web[104276]: INFO:     172.31.31.16:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:52:15 ip-172-31-22-184 web[104276]: INFO:     172.31.6.57:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:52:23 ip-172-31-22-184 web[104276]: INFO:     172.31.31.16:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:52:30 ip-172-31-22-184 web[104276]: INFO:     172.31.6.57:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:52:38 ip-172-31-22-184 web[104276]: INFO:     172.31.31.16:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:52:45 ip-172-31-22-184 web[104276]: INFO:     172.31.6.57:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:52:53 ip-172-31-22-184 web[104276]: INFO:     172.31.31.16:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:53:00 ip-172-31-22-184 web[104276]: INFO:     172.31.6.57:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:53:08 ip-172-31-22-184 web[104276]: INFO:     172.31.31.16:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:53:15 ip-172-31-22-184 web[104276]: INFO:     172.31.6.57:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:53:23 ip-172-31-22-184 web[104276]: INFO:     172.31.31.16:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:53:30 ip-172-31-22-184 web[104276]: INFO:     172.31.6.57:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:53:38 ip-172-31-22-184 web[104276]: INFO:     172.31.31.16:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:53:45 ip-172-31-22-184 web[104276]: INFO:     172.31.6.57:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:53:53 ip-172-31-22-184 web[104276]: INFO:     172.31.31.16:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:54:00 ip-172-31-22-184 web[104276]: INFO:     172.31.6.57:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:54:08 ip-172-31-22-184 web[104276]: INFO:     172.31.31.16:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:54:15 ip-172-31-22-184 web[104276]: INFO:     172.31.6.57:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:54:23 ip-172-31-22-184 web[104276]: INFO:     172.31.31.16:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:54:30 ip-172-31-22-184 web[104276]: INFO:     172.31.6.57:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:54:38 ip-172-31-22-184 web[104276]: INFO:     172.31.31.16:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:54:45 ip-172-31-22-184 web[104276]: INFO:     172.31.6.57:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:54:53 ip-172-31-22-184 web[104276]: INFO:     172.31.31.16:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:55:00 ip-172-31-22-184 web[104276]: INFO:     172.31.6.57:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:55:08 ip-172-31-22-184 web[104276]: INFO:     172.31.31.16:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:55:15 ip-172-31-22-184 web[104276]: INFO:     172.31.6.57:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:55:23 ip-172-31-22-184 web[104276]: INFO:     172.31.31.16:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:55:30 ip-172-31-22-184 web[104276]: INFO:     172.31.6.57:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:55:38 ip-172-31-22-184 web[104276]: INFO:     172.31.31.16:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:55:45 ip-172-31-22-184 web[104276]: INFO:     172.31.6.57:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:55:53 ip-172-31-22-184 web[104276]: INFO:     172.31.31.16:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:56:01 ip-172-31-22-184 web[104276]: INFO:     172.31.6.57:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:56:08 ip-172-31-22-184 web[104276]: INFO:     172.31.31.16:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:56:16 ip-172-31-22-184 web[104276]: INFO:     172.31.6.57:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:56:23 ip-172-31-22-184 web[104276]: INFO:     172.31.31.16:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:56:31 ip-172-31-22-184 web[104276]: INFO:     172.31.6.57:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:56:38 ip-172-31-22-184 web[104276]: INFO:     172.31.31.16:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:56:46 ip-172-31-22-184 web[104276]: INFO:     172.31.6.57:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:56:53 ip-172-31-22-184 web[104276]: INFO:     172.31.31.16:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:57:01 ip-172-31-22-184 web[104276]: INFO:     172.31.6.57:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:57:08 ip-172-31-22-184 web[104276]: INFO:     172.31.31.16:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:57:16 ip-172-31-22-184 web[104276]: INFO:     172.31.6.57:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:57:23 ip-172-31-22-184 web[104276]: INFO:     172.31.31.16:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:57:31 ip-172-31-22-184 web[104276]: INFO:     172.31.6.57:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:57:38 ip-172-31-22-184 web[104276]: INFO:     172.31.31.16:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:57:46 ip-172-31-22-184 web[104276]: INFO:     172.31.6.57:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:57:53 ip-172-31-22-184 web[104276]: INFO:     172.31.31.16:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:58:01 ip-172-31-22-184 web[104276]: INFO:     172.31.6.57:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:58:08 ip-172-31-22-184 web[104276]: INFO:     172.31.31.16:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:58:16 ip-172-31-22-184 web[104276]: INFO:     172.31.6.57:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:58:23 ip-172-31-22-184 web[104276]: INFO:     172.31.31.16:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:58:31 ip-172-31-22-184 web[104276]: INFO:     172.31.6.57:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:58:38 ip-172-31-22-184 web[104276]: INFO:     172.31.31.16:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:58:46 ip-172-31-22-184 web[104276]: INFO:     172.31.6.57:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:58:53 ip-172-31-22-184 web[104276]: INFO:     172.31.31.16:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:59:01 ip-172-31-22-184 web[104276]: INFO:     172.31.6.57:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:59:08 ip-172-31-22-184 web[104276]: INFO:     172.31.31.16:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:59:16 ip-172-31-22-184 web[104276]: INFO:     172.31.6.57:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:59:23 ip-172-31-22-184 web[104276]: INFO:     172.31.31.16:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:59:31 ip-172-31-22-184 web[104276]: INFO:     172.31.6.57:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:59:38 ip-172-31-22-184 web[104276]: INFO:     172.31.31.16:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:59:46 ip-172-31-22-184 web[104276]: INFO:     172.31.6.57:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 03:59:53 ip-172-31-22-184 web[104276]: INFO:     172.31.31.16:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 04:00:01 ip-172-31-22-184 web[104276]: INFO:     172.31.6.57:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 04:00:08 ip-172-31-22-184 web[104276]: INFO:     172.31.31.16:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 04:00:16 ip-172-31-22-184 web[104276]: INFO:     172.31.6.57:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 04:00:23 ip-172-31-22-184 web[104276]: INFO:     172.31.31.16:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 04:00:31 ip-172-31-22-184 web[104276]: INFO:     172.31.6.57:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 04:00:38 ip-172-31-22-184 web[104276]: INFO:     172.31.31.16:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 04:00:46 ip-172-31-22-184 web[104276]: INFO:     172.31.6.57:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 04:00:53 ip-172-31-22-184 web[104276]: INFO:     172.31.31.16:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 04:01:01 ip-172-31-22-184 web[104276]: INFO:     172.31.6.57:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 04:01:08 ip-172-31-22-184 web[104276]: INFO:     172.31.31.16:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 04:01:16 ip-172-31-22-184 web[104276]: INFO:     172.31.6.57:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 04:01:23 ip-172-31-22-184 web[104276]: INFO:     172.31.31.16:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 04:01:31 ip-172-31-22-184 web[104276]: INFO:     172.31.6.57:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 04:01:38 ip-172-31-22-184 web[104276]: INFO:     172.31.31.16:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 04:01:46 ip-172-31-22-184 web[104276]: INFO:     172.31.6.57:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 04:01:53 ip-172-31-22-184 web[104276]: INFO:     172.31.31.16:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 04:02:01 ip-172-31-22-184 web[104276]: INFO:     172.31.6.57:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 04:02:08 ip-172-31-22-184 web[104276]: INFO:     172.31.31.16:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 04:02:16 ip-172-31-22-184 web[104276]: INFO:     172.31.6.57:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 04:02:23 ip-172-31-22-184 web[104276]: INFO:     172.31.31.16:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 04:02:31 ip-172-31-22-184 web[104276]: INFO:     172.31.6.57:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 04:02:38 ip-172-31-22-184 web[104276]: INFO:     172.31.31.16:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 04:02:46 ip-172-31-22-184 web[104276]: INFO:     172.31.6.57:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 04:02:53 ip-172-31-22-184 web[104276]: INFO:     172.31.31.16:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 04:03:01 ip-172-31-22-184 web[104276]: INFO:     172.31.6.57:0 - "GET / HTTP/1.1" 200 OK
+Feb 24 04:03:08 ip-172-31-22-184 web[104276]: INFO:     172.31.31.16:0 - "GET / HTTP/1.1" 200 OK
+
+

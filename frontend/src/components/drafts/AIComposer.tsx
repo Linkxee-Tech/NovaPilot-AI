@@ -113,10 +113,10 @@ const AIComposer: React.FC<AIComposerProps> = ({ isOpen, onClose, onApply, draft
     };
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-end">
+        <div className="fixed inset-0 z-[70] flex items-center justify-end">
             <div className="absolute inset-0 bg-slate-950/60 backdrop-blur-sm" onClick={onClose} />
 
-            <div className="relative w-full max-w-lg h-[92vh] sm:h-full bg-white dark:bg-slate-900 border-l border-slate-200 dark:border-slate-800 shadow-2xl flex flex-col animate-in slide-in-from-right duration-300 rounded-t-3xl sm:rounded-none mt-auto sm:mt-0">
+            <div className="relative w-full max-w-lg h-full sm:h-full bg-white dark:bg-slate-900 border-l border-slate-200 dark:border-slate-800 shadow-2xl flex flex-col animate-in slide-in-from-right duration-300 rounded-t-3xl sm:rounded-none mt-auto sm:mt-0">
                 {/* Header */}
                 <div className="p-6 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-white/50 dark:bg-slate-900/50 backdrop-blur-md sticky top-0 z-20">
                     <div className="flex items-center gap-3">
@@ -187,7 +187,7 @@ const AIComposer: React.FC<AIComposerProps> = ({ isOpen, onClose, onApply, draft
                 </div>
 
                 {/* Input area */}
-                <div className="p-6 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800">
+                <div className="p-6 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 sticky bottom-16 sm:bottom-0 z-20">
                     <div className="relative">
                         <textarea
                             value={input}

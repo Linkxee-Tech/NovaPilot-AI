@@ -4,7 +4,8 @@ import os
 import secrets
 
 import httpx
-from fastapi import APIRouter, Depends, HTTPException, Request, Response, status, Body
+from fastapi import APIRouter, Depends, HTTPException, Request, status, Body
+from fastapi.responses import RedirectResponse, Response
 from fastapi.security import OAuth2PasswordRequestForm
 from jose import jwt, JWTError
 from sqlalchemy.orm import Session
@@ -243,8 +244,13 @@ def google_callback(code: str, response: Response, db: Session = Depends(get_db)
 
     access_token = security.create_access_token(subject=user.email)
     refresh_token = security.create_refresh_token(subject=user.email)
+    
+    # Create the redirect response
+    redirect_url = f"{settings.FRONTEND_URL}/dashboard"
+    response = RedirectResponse(url=redirect_url)
+    
     _set_auth_cookies(response, access_token=access_token, refresh_token=refresh_token)
-    return _build_auth_payload(user, access_token, refresh_token)
+    return response
 
 
 @router.post("/refresh", response_model=Token)

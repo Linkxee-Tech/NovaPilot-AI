@@ -395,7 +395,7 @@ const PostComposer = ({ isOpen, onClose, initialContent = '', initialDraftId, on
                     </div>
                 </div>
 
-                <div className="p-4 sm:p-6 border-t border-slate-200 dark:border-slate-800 shrink-0 sticky bottom-0 z-20 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between bg-white dark:bg-slate-900/95 backdrop-blur-md pb-safe-offset-4">
+                <div className="p-4 sm:p-6 border-t border-slate-200 dark:border-slate-800 shrink-0 sticky bottom-16 sm:bottom-0 z-20 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between bg-white dark:bg-slate-900/95 backdrop-blur-md">
                     <div className="hidden sm:flex items-center gap-2">
                         <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
                         <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">System Online</span>

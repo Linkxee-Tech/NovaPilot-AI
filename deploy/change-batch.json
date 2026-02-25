@@ -1,0 +1,30 @@
+{
+    "Changes": [
+        {
+            "Action": "UPSERT",
+            "ResourceRecordSet": {
+                "Name": "_a36bdacc181b5ac2e9e64de034e06fd9.novapilot.ai.",
+                "Type": "CNAME",
+                "TTL": 300,
+                "ResourceRecords": [
+                    {
+                        "Value": "_5d3dd2fe594a68a449009313dcbbad05.jkddzztszm.acm-validations.aws."
+                    }
+                ]
+            }
+        },
+        {
+            "Action": "UPSERT",
+            "ResourceRecordSet": {
+                "Name": "_dd9cbe75f3110ab5c0263de8e3f2f838.www.novapilot.ai.",
+                "Type": "CNAME",
+                "TTL": 300,
+                "ResourceRecords": [
+                    {
+                        "Value": "_08f8a99eacd9d7ea462296b5dcfa2425.jkddzztszm.acm-validations.aws."
+                    }
+                ]
+            }
+        }
+    ]
+}

@@ -1,0 +1,16 @@
+﻿{
+    "EnvironmentInfo": [
+        {
+            "InfoType": "tail",
+            "Ec2InstanceId": "i-0aff584529ab93b1f",
+            "SampleTimestamp": "2026-02-24T05:45:17.373000+00:00",
+            "Message": "https://elasticbeanstalk-us-east-1-625455455893.s3.amazonaws.com/resources/environments/logs/tail/e-scamd3xtcp/i-0aff584529ab93b1f/TailLogs-1771911917363.txt?X-Amz-Security-Token=IQoJb3JpZ2luX2VjECYaCXVzLWVhc3QtMSJIMEYCIQDFIPsywNOwTuFRmsMvflLbB%2BkXkqtOq1v0F3aXDW7v8wIhAMcfO0cXGfUOkaYSTVJAgImnk9qtIrk2361hkBei6LyuKvYCCO7%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEQABoMMTE1NDE0MjE5MDk0Igxn23WQ%2Fagbn6QH%2FkkqygKmnmFyWaCo5V1RNZmssJ1E6thWMI9OArmE%2B9jHQOvN90OgGitBvf5%2FNov%2B2oUQSgEy18TsDSczBRwv%2BCAepFZNsBCyCVy6HtazDVmKG2cH1L5vtAwg1E8xm2sKys0t1EAn3U2stkMuYyZBKKnQPfH7aCgE747GCIVIsb7cj32xVtOTq4N31N4WTWYMU0%2FL%2Fe1JVPXlzEOdJCF6FUKhTf9r%2FrtykbghueUNjJradp2CBwnkMNqCmwrI%2Bg3nVQRG1VAjXXyAGsG4vwXb9DTSJ%2BWRuVEylez5%2Biq7fmjSHRNbKiQWRaOLosCYgEok3meCxbKc2SOK1Kz5VTy7PiPO4FauAWA8Dq0TRsINic8K5c7w0UzQD%2FOWEwvnEwi3SsO8KaDbqswhsbPEmmorp7rFC7qteMyCbGoAx5M1QY5Er4uC42TQFzRgIWMQJXEwqOb0zAY6vAF4UI8NqKM0yRqtF7vGpzsSzy%2FubZ%2BAIV2Qwn4Wv4%2BIHz9gyZWWZXDkiUepBCI1xDoGiehuAyKzocxXqTga40NgdIbIUsA%2BuTpROAvq48W%2FvjPURJlcAzMB5%2Bsk98njH3FpdhKbKV8nsjPbaxt4lxnoEvAj1kl%2B9D1%2Frg7afbZ8kvBPWJdDwzRgtd%2FQaMSSss8YFzW%2FFgps%2BjfM4NiRR0c3AjHVRDzJQ034oiX508FKJMw%2BQobAF1A1%2FLz92A%3D%3D&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20260224T054558Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86400&X-Amz-Credential=ASIARVXZZHFLE5EFPZ4L%2F20260224%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=915b0599f3634195e20c0d61b36c9272cec82dead71318de7e0c08ca0e23e74a"
+        },
+        {
+            "InfoType": "tail",
+            "Ec2InstanceId": "i-0aff584529ab93b1f",
+            "SampleTimestamp": "2026-02-24T05:45:51.648000+00:00",
+            "Message": "https://elasticbeanstalk-us-east-1-625455455893.s3.amazonaws.com/resources/environments/logs/tail/e-scamd3xtcp/i-0aff584529ab93b1f/TailLogs-1771911951638.txt?X-Amz-Security-Token=IQoJb3JpZ2luX2VjECYaCXVzLWVhc3QtMSJIMEYCIQDFIPsywNOwTuFRmsMvflLbB%2BkXkqtOq1v0F3aXDW7v8wIhAMcfO0cXGfUOkaYSTVJAgImnk9qtIrk2361hkBei6LyuKvYCCO7%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEQABoMMTE1NDE0MjE5MDk0Igxn23WQ%2Fagbn6QH%2FkkqygKmnmFyWaCo5V1RNZmssJ1E6thWMI9OArmE%2B9jHQOvN90OgGitBvf5%2FNov%2B2oUQSgEy18TsDSczBRwv%2BCAepFZNsBCyCVy6HtazDVmKG2cH1L5vtAwg1E8xm2sKys0t1EAn3U2stkMuYyZBKKnQPfH7aCgE747GCIVIsb7cj32xVtOTq4N31N4WTWYMU0%2FL%2Fe1JVPXlzEOdJCF6FUKhTf9r%2FrtykbghueUNjJradp2CBwnkMNqCmwrI%2Bg3nVQRG1VAjXXyAGsG4vwXb9DTSJ%2BWRuVEylez5%2Biq7fmjSHRNbKiQWRaOLosCYgEok3meCxbKc2SOK1Kz5VTy7PiPO4FauAWA8Dq0TRsINic8K5c7w0UzQD%2FOWEwvnEwi3SsO8KaDbqswhsbPEmmorp7rFC7qteMyCbGoAx5M1QY5Er4uC42TQFzRgIWMQJXEwqOb0zAY6vAF4UI8NqKM0yRqtF7vGpzsSzy%2FubZ%2BAIV2Qwn4Wv4%2BIHz9gyZWWZXDkiUepBCI1xDoGiehuAyKzocxXqTga40NgdIbIUsA%2BuTpROAvq48W%2FvjPURJlcAzMB5%2Bsk98njH3FpdhKbKV8nsjPbaxt4lxnoEvAj1kl%2B9D1%2Frg7afbZ8kvBPWJdDwzRgtd%2FQaMSSss8YFzW%2FFgps%2BjfM4NiRR0c3AjHVRDzJQ034oiX508FKJMw%2BQobAF1A1%2FLz92A%3D%3D&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20260224T054558Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86400&X-Amz-Credential=ASIARVXZZHFLE5EFPZ4L%2F20260224%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=cd51d1d462acd58484e849581ba47bf06a662d1db4f6e037932cfba7e357ec01"
+        }
+    ]
+}

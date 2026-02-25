@@ -1,0 +1,1 @@
+{"status":"healthy","timestamp":1771912166.232654,"version":"2.0.0","environment":"production","features":{"ai_engine":true,"database":true,"storage":true},"dependencies":{"database":{"ok":true,"error":null},"redis":{"ok":false,"required":false,"effective_ok":true,"error":"Error 111 connecting to localhost:6379. Connection refused."}}}

@@ -1,0 +1,28 @@
+﻿{
+    "EnvironmentResources": {
+        "EnvironmentName": "novapilot-backend-env",
+        "AutoScalingGroups": [
+            {
+                "Name": "awseb-e-scamd3xtcp-stack-AWSEBAutoScalingGroup-qtps5SzaXqXT"
+            }
+        ],
+        "Instances": [
+            {
+                "Id": "i-0aff584529ab93b1f"
+            }
+        ],
+        "LaunchConfigurations": [],
+        "LaunchTemplates": [
+            {
+                "Id": "lt-0b834f6b6aacfcc3e"
+            }
+        ],
+        "LoadBalancers": [
+            {
+                "Name": "arn:aws:elasticloadbalancing:us-east-1:625455455893:loadbalancer/app/awseb--AWSEB-seBh78nTramv/ab92a0fc1250269d"
+            }
+        ],
+        "Triggers": [],
+        "Queues": []
+    }
+}

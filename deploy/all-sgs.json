@@ -1,0 +1,356 @@
+﻿{
+    "SecurityGroups": [
+        {
+            "GroupId": "sg-0115c8fb8b783a78d",
+            "IpPermissionsEgress": [
+                {
+                    "IpProtocol": "-1",
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ],
+            "Tags": [
+                {
+                    "Key": "elasticbeanstalk:environment-name",
+                    "Value": "novapilot-backend-env"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "novapilot-backend-env"
+                },
+                {
+                    "Key": "aws:cloudformation:logical-id",
+                    "Value": "AWSEBSecurityGroup"
+                },
+                {
+                    "Key": "aws:cloudformation:stack-name",
+                    "Value": "awseb-e-scamd3xtcp-stack"
+                },
+                {
+                    "Key": "elasticbeanstalk:environment-id",
+                    "Value": "e-scamd3xtcp"
+                },
+                {
+                    "Key": "aws:cloudformation:stack-id",
+                    "Value": "arn:aws:cloudformation:us-east-1:625455455893:stack/awseb-e-scamd3xtcp-stack/456603f0-0fef-11f1-a0f1-12a543ef6fe9"
+                }
+            ],
+            "VpcId": "vpc-0d79f69c0dc93703d",
+            "SecurityGroupArn": "arn:aws:ec2:us-east-1:625455455893:security-group/sg-0115c8fb8b783a78d",
+            "OwnerId": "625455455893",
+            "GroupName": "awseb-e-scamd3xtcp-stack-AWSEBSecurityGroup-B5RJSXZSzoKl",
+            "Description": "SecurityGroup for ElasticBeanstalk environment.",
+            "IpPermissions": [
+                {
+                    "IpProtocol": "tcp",
+                    "FromPort": 80,
+                    "ToPort": 80,
+                    "UserIdGroupPairs": [
+                        {
+                            "UserId": "625455455893",
+                            "GroupId": "sg-0cb5ef29ba7012ebe"
+                        }
+                    ],
+                    "IpRanges": [],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                },
+                {
+                    "IpProtocol": "tcp",
+                    "FromPort": 22,
+                    "ToPort": 22,
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ]
+        },
+        {
+            "GroupId": "sg-0c3258181422ae226",
+            "IpPermissionsEgress": [],
+            "VpcId": "vpc-0d79f69c0dc93703d",
+            "SecurityGroupArn": "arn:aws:ec2:us-east-1:625455455893:security-group/sg-0c3258181422ae226",
+            "OwnerId": "625455455893",
+            "GroupName": "rds-ec2-2",
+            "Description": "Security group attached to novapilot-postgres to allow EC2 instances with specific security groups attached to connect to the database. Modification could lead to connection loss.",
+            "IpPermissions": [
+                {
+                    "IpProtocol": "tcp",
+                    "FromPort": 5432,
+                    "ToPort": 5432,
+                    "UserIdGroupPairs": [
+                        {
+                            "Description": "Rule to allow connections from EC2 instances with sg-0cd0bea9f48d170e1 attached",
+                            "UserId": "625455455893",
+                            "GroupId": "sg-0cd0bea9f48d170e1"
+                        }
+                    ],
+                    "IpRanges": [],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ]
+        },
+        {
+            "GroupId": "sg-04e85c0cf2c14f624",
+            "IpPermissionsEgress": [
+                {
+                    "IpProtocol": "-1",
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ],
+            "VpcId": "vpc-0d79f69c0dc93703d",
+            "SecurityGroupArn": "arn:aws:ec2:us-east-1:625455455893:security-group/sg-04e85c0cf2c14f624",
+            "OwnerId": "625455455893",
+            "GroupName": "novapilot",
+            "Description": "Created by RDS management console",
+            "IpPermissions": [
+                {
+                    "IpProtocol": "tcp",
+                    "FromPort": 5432,
+                    "ToPort": 5432,
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "CidrIp": "105.112.117.235/32"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ]
+        },
+        {
+            "GroupId": "sg-0cd0bea9f48d170e1",
+            "IpPermissionsEgress": [
+                {
+                    "IpProtocol": "tcp",
+                    "FromPort": 5432,
+                    "ToPort": 5432,
+                    "UserIdGroupPairs": [
+                        {
+                            "Description": "Rule to allow connections to novapilot-postgres from any instances this security group is attached to",
+                            "UserId": "625455455893",
+                            "GroupId": "sg-0c3258181422ae226"
+                        }
+                    ],
+                    "IpRanges": [],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ],
+            "VpcId": "vpc-0d79f69c0dc93703d",
+            "SecurityGroupArn": "arn:aws:ec2:us-east-1:625455455893:security-group/sg-0cd0bea9f48d170e1",
+            "OwnerId": "625455455893",
+            "GroupName": "ec2-rds-2",
+            "Description": "Security group attached to instances to securely connect to novapilot-postgres. Modification could lead to connection loss.",
+            "IpPermissions": []
+        },
+        {
+            "GroupId": "sg-0a32f5d9993c08da0",
+            "IpPermissionsEgress": [
+                {
+                    "IpProtocol": "-1",
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ],
+            "VpcId": "vpc-0d79f69c0dc93703d",
+            "SecurityGroupArn": "arn:aws:ec2:us-east-1:625455455893:security-group/sg-0a32f5d9993c08da0",
+            "OwnerId": "625455455893",
+            "GroupName": "novapilot-rds-sg",
+            "Description": "NovaPilot RDS access",
+            "IpPermissions": [
+                {
+                    "IpProtocol": "tcp",
+                    "FromPort": 5432,
+                    "ToPort": 5432,
+                    "UserIdGroupPairs": [
+                        {
+                            "UserId": "625455455893",
+                            "GroupId": "sg-0115c8fb8b783a78d"
+                        }
+                    ],
+                    "IpRanges": [],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ]
+        },
+        {
+            "GroupId": "sg-0193c46bfde06c5df",
+            "IpPermissionsEgress": [
+                {
+                    "IpProtocol": "tcp",
+                    "FromPort": 5432,
+                    "ToPort": 5432,
+                    "UserIdGroupPairs": [
+                        {
+                            "Description": "Rule to allow connections to database-1 from any instances this security group is attached to",
+                            "UserId": "625455455893",
+                            "GroupId": "sg-06a2f22f97ab32b88"
+                        }
+                    ],
+                    "IpRanges": [],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ],
+            "VpcId": "vpc-0d79f69c0dc93703d",
+            "SecurityGroupArn": "arn:aws:ec2:us-east-1:625455455893:security-group/sg-0193c46bfde06c5df",
+            "OwnerId": "625455455893",
+            "GroupName": "ec2-rds-1",
+            "Description": "Security group attached to instances to securely connect to database-1. Modification could lead to connection loss.",
+            "IpPermissions": []
+        },
+        {
+            "GroupId": "sg-06a2f22f97ab32b88",
+            "IpPermissionsEgress": [],
+            "VpcId": "vpc-0d79f69c0dc93703d",
+            "SecurityGroupArn": "arn:aws:ec2:us-east-1:625455455893:security-group/sg-06a2f22f97ab32b88",
+            "OwnerId": "625455455893",
+            "GroupName": "rds-ec2-1",
+            "Description": "Security group attached to database-1 to allow EC2 instances with specific security groups attached to connect to the database. Modification could lead to connection loss.",
+            "IpPermissions": [
+                {
+                    "IpProtocol": "tcp",
+                    "FromPort": 5432,
+                    "ToPort": 5432,
+                    "UserIdGroupPairs": [
+                        {
+                            "Description": "Rule to allow connections from EC2 instances with sg-0193c46bfde06c5df attached",
+                            "UserId": "625455455893",
+                            "GroupId": "sg-0193c46bfde06c5df"
+                        }
+                    ],
+                    "IpRanges": [],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ]
+        },
+        {
+            "GroupId": "sg-0cb5ef29ba7012ebe",
+            "IpPermissionsEgress": [
+                {
+                    "IpProtocol": "tcp",
+                    "FromPort": 80,
+                    "ToPort": 80,
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ],
+            "Tags": [
+                {
+                    "Key": "aws:cloudformation:stack-name",
+                    "Value": "awseb-e-scamd3xtcp-stack"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "novapilot-backend-env"
+                },
+                {
+                    "Key": "elasticbeanstalk:environment-id",
+                    "Value": "e-scamd3xtcp"
+                },
+                {
+                    "Key": "aws:cloudformation:logical-id",
+                    "Value": "AWSEBLoadBalancerSecurityGroup"
+                },
+                {
+                    "Key": "aws:cloudformation:stack-id",
+                    "Value": "arn:aws:cloudformation:us-east-1:625455455893:stack/awseb-e-scamd3xtcp-stack/456603f0-0fef-11f1-a0f1-12a543ef6fe9"
+                },
+                {
+                    "Key": "elasticbeanstalk:environment-name",
+                    "Value": "novapilot-backend-env"
+                }
+            ],
+            "VpcId": "vpc-0d79f69c0dc93703d",
+            "SecurityGroupArn": "arn:aws:ec2:us-east-1:625455455893:security-group/sg-0cb5ef29ba7012ebe",
+            "OwnerId": "625455455893",
+            "GroupName": "awseb-e-scamd3xtcp-stack-AWSEBLoadBalancerSecurityGroup-XCVTgywJfcXR",
+            "Description": "Elastic Beanstalk created security group used when no ELB security groups are specified during ELB creation",
+            "IpPermissions": [
+                {
+                    "IpProtocol": "tcp",
+                    "FromPort": 80,
+                    "ToPort": 80,
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ]
+        },
+        {
+            "GroupId": "sg-054c54a25300e661d",
+            "IpPermissionsEgress": [
+                {
+                    "IpProtocol": "-1",
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ],
+            "VpcId": "vpc-0d79f69c0dc93703d",
+            "SecurityGroupArn": "arn:aws:ec2:us-east-1:625455455893:security-group/sg-054c54a25300e661d",
+            "OwnerId": "625455455893",
+            "GroupName": "default",
+            "Description": "default VPC security group",
+            "IpPermissions": [
+                {
+                    "IpProtocol": "-1",
+                    "UserIdGroupPairs": [
+                        {
+                            "UserId": "625455455893",
+                            "GroupId": "sg-054c54a25300e661d"
+                        }
+                    ],
+                    "IpRanges": [],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ]
+        }
+    ]
+}

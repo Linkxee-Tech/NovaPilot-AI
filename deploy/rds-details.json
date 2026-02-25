@@ -1,0 +1,108 @@
+﻿{
+    "DBInstances": [
+        {
+            "DBInstanceIdentifier": "novapilot-postgres",
+            "DBInstanceClass": "db.t3.micro",
+            "Engine": "postgres",
+            "DBInstanceStatus": "available",
+            "MasterUsername": "novapilot_admin",
+            "DBName": "novapilot",
+            "Endpoint": {
+                "Address": "novapilot-postgres.ca3uowigeiot.us-east-1.rds.amazonaws.com",
+                "Port": 5432,
+                "HostedZoneId": "Z2R2ITUGPM61AM"
+            },
+            "AllocatedStorage": 20,
+            "InstanceCreateTime": "2026-02-22T22:45:52.694000+00:00",
+            "PreferredBackupWindow": "09:13-09:43",
+            "BackupRetentionPeriod": 7,
+            "DBSecurityGroups": [],
+            "VpcSecurityGroups": [
+                {
+                    "VpcSecurityGroupId": "sg-0a32f5d9993c08da0",
+                    "Status": "active"
+                },
+                {
+                    "VpcSecurityGroupId": "sg-0c3258181422ae226",
+                    "Status": "active"
+                }
+            ],
+            "DBParameterGroups": [
+                {
+                    "DBParameterGroupName": "default.postgres17",
+                    "ParameterApplyStatus": "in-sync"
+                }
+            ],
+            "AvailabilityZone": "us-east-1a",
+            "DBSubnetGroup": {
+                "DBSubnetGroupName": "novapilot-db-subnet-group",
+                "DBSubnetGroupDescription": "NovaPilot DB subnet group",
+                "VpcId": "vpc-0d79f69c0dc93703d",
+                "SubnetGroupStatus": "Complete",
+                "Subnets": [
+                    {
+                        "SubnetIdentifier": "subnet-0a18ffba1a5e6f469",
+                        "SubnetAvailabilityZone": {
+                            "Name": "us-east-1c"
+                        },
+                        "SubnetOutpost": {},
+                        "SubnetStatus": "Active"
+                    },
+                    {
+                        "SubnetIdentifier": "subnet-02ffbc223b9da277e",
+                        "SubnetAvailabilityZone": {
+                            "Name": "us-east-1a"
+                        },
+                        "SubnetOutpost": {},
+                        "SubnetStatus": "Active"
+                    }
+                ]
+            },
+            "PreferredMaintenanceWindow": "tue:03:12-tue:03:42",
+            "UpgradeRolloutOrder": "second",
+            "PendingModifiedValues": {},
+            "LatestRestorableTime": "2026-02-24T05:29:35+00:00",
+            "MultiAZ": false,
+            "EngineVersion": "17.6",
+            "AutoMinorVersionUpgrade": true,
+            "ReadReplicaDBInstanceIdentifiers": [],
+            "LicenseModel": "postgresql-license",
+            "Iops": 3000,
+            "StorageThroughput": 125,
+            "OptionGroupMemberships": [
+                {
+                    "OptionGroupName": "default:postgres-17",
+                    "Status": "in-sync"
+                }
+            ],
+            "PubliclyAccessible": false,
+            "StorageType": "gp3",
+            "DbInstancePort": 0,
+            "StorageEncrypted": true,
+            "KmsKeyId": "arn:aws:kms:us-east-1:625455455893:key/670d5815-db16-4f3f-90ee-07faf875f2e1",
+            "DbiResourceId": "db-4PO2XJQCXLFKEE3ZBLVAPD76HU",
+            "CACertificateIdentifier": "rds-ca-rsa2048-g1",
+            "DomainMemberships": [],
+            "CopyTagsToSnapshot": false,
+            "MonitoringInterval": 0,
+            "DBInstanceArn": "arn:aws:rds:us-east-1:625455455893:db:novapilot-postgres",
+            "IAMDatabaseAuthenticationEnabled": false,
+            "DatabaseInsightsMode": "standard",
+            "PerformanceInsightsEnabled": false,
+            "DeletionProtection": true,
+            "AssociatedRoles": [],
+            "TagList": [],
+            "CustomerOwnedIpEnabled": false,
+            "NetworkType": "IPV4",
+            "ActivityStreamStatus": "stopped",
+            "BackupTarget": "region",
+            "CertificateDetails": {
+                "CAIdentifier": "rds-ca-rsa2048-g1",
+                "ValidTill": "2027-02-22T22:44:35+00:00"
+            },
+            "DedicatedLogVolume": false,
+            "IsStorageConfigUpgradeAvailable": false,
+            "EngineLifecycleSupport": "open-source-rds-extended-support"
+        }
+    ]
+}

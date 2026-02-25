@@ -11,6 +11,7 @@ class Settings(BaseSettings):
     API_V1_STR: str = "/api/v1"
     ENV: str = "development"
     ALLOWED_ORIGINS: str = "http://localhost:5173,http://127.0.0.1:5173"
+    FRONTEND_URL: str = "http://localhost:5173"
     DEMO_MODE: bool = False
 
     # AWS Secrets Manager configuration

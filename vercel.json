@@ -1,0 +1,14 @@
+{
+    "buildCommand": "cd frontend && npm install && npm run build",
+    "outputDirectory": "frontend/dist",
+    "rewrites": [
+        {
+            "source": "/api/v1/:path*",
+            "destination": "https://d2v9dvboqxocd.cloudfront.net/api/v1/:path*"
+        },
+        {
+            "source": "/(?!api/v1)(.*)",
+            "destination": "/frontend/dist/index.html"
+        }
+    ]
+}

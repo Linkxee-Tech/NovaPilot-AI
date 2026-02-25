@@ -1,0 +1,1 @@
+{\n  "routes": [\n    {\n      "src": "/(.*)",\n      "dest": "/$1"\n    }\n  ],\n  "build": {\n    "env": {\n      "NEXT_PUBLIC_API_URL": "https://api.example.com"\n    }\n  }\n}

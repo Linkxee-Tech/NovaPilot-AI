@@ -1,4 +1,4 @@
-import { ArrowUpRight, MoreHorizontal, Download, Orbit, Loader2 } from 'lucide-react';
+import { MoreHorizontal, Download, Orbit, Loader2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import client from '../../api/client';
@@ -51,11 +51,11 @@ const EngagementTable = () => {
                 <table className="w-full text-left text-sm text-slate-600 dark:text-slate-400">
                     <thead className="bg-slate-50 dark:bg-slate-950 text-slate-500 uppercase font-black text-[10px] tracking-[0.1em]">
                         <tr>
-                            <th className="px-8 py-5">Post Title</th>
-                            <th className="px-8 py-5">Platform</th>
-                            <th className="px-8 py-5">Status</th>
-                            <th className="px-8 py-5">Execution Date</th>
-                            <th className="px-8 py-5 text-right">Actions</th>
+                            <th className="px-4 sm:px-8 py-5">Post Title</th>
+                            <th className="px-4 sm:px-8 py-5 hidden sm:table-cell">Platform</th>
+                            <th className="px-4 sm:px-8 py-5">Status</th>
+                            <th className="px-4 sm:px-8 py-5 hidden md:table-cell">Execution Date</th>
+                            <th className="px-4 sm:px-8 py-5 text-right">Actions</th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100 dark:divide-slate-800/50">
@@ -65,22 +65,21 @@ const EngagementTable = () => {
                                 onClick={() => navigate(`/analytics/${post.id}`)}
                                 className="hover:bg-blue-500/5 transition-all group cursor-pointer border-transparent hover:border-blue-500/20"
                             >
-                                <td className="px-8 py-6">
-                                    <div className="font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors truncate max-w-[300px] italic uppercase tracking-tight">
+                                <td className="px-4 sm:px-8 py-6">
+                                    <div className="font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors truncate max-w-[150px] sm:max-w-[300px] italic uppercase tracking-tight text-xs sm:text-sm">
                                         {post.content.substring(0, 40)}...
                                     </div>
                                 </td>
-                                <td className="px-8 py-6 text-xs font-black uppercase tracking-widest text-slate-500">{post.platform}</td>
-                                <td className="px-8 py-6">
+                                <td className="px-4 sm:px-8 py-6 text-[10px] font-black uppercase tracking-widest text-slate-500 hidden sm:table-cell">{post.platform}</td>
+                                <td className="px-4 sm:px-8 py-6">
                                     <div className="flex items-center gap-2">
                                         <span className="inline-flex items-center px-2 py-0.5 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 text-[9px] font-black uppercase tracking-widest">
                                             {post.status}
                                         </span>
-                                        <ArrowUpRight size={14} className="text-emerald-500 animate-pulse" />
                                     </div>
                                 </td>
-                                <td className="px-8 py-6 text-[10px] font-black uppercase text-slate-500">{new Date(post.scheduled_at).toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' })}</td>
-                                <td className="px-8 py-6 text-right">
+                                <td className="px-4 sm:px-8 py-6 text-[10px] font-black uppercase text-slate-500 hidden md:table-cell">{new Date(post.scheduled_at).toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' })}</td>
+                                <td className="px-4 sm:px-8 py-6 text-right">
                                     <button className="p-2 text-slate-400 hover:text-slate-900 dark:hover:text-white rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">
                                         <MoreHorizontal size={16} />
                                     </button>

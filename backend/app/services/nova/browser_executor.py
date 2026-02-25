@@ -17,7 +17,7 @@ class BrowserExecutor:
         if not self._playwright:
             self._playwright = await async_playwright().start()
             self._browser = await self._playwright.chromium.launch(
-                headless=False,  # Visible for debugging/demo, can be True in prod
+                headless=True,  # Must be True for production/EC2 environment
                 args=['--no-sandbox', '--disable-setuid-sandbox']
             )
             self._page = await self._browser.new_page()

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { X, Image as ImageIcon, Calendar, Linkedin, Clock, Save, Loader2, SendHorizontal, WandSparkles, Mic, Video, FolderOpen } from 'lucide-react';
+import { X, Image as ImageIcon, Calendar, Linkedin, Clock, Save, Loader2, SendHorizontal, WandSparkles, Mic, Video, FolderOpen, Sparkles } from 'lucide-react';
 import { toast } from 'sonner';
 import client from '../../api/client';
 import { aiService } from '../../api/aiService';
@@ -169,8 +169,8 @@ const PostComposer = ({ isOpen, onClose, initialContent = '', initialDraftId, on
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-slate-950/80 backdrop-blur-md transition-all duration-300">
-            <div className={`bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 w-full ${previewMode ? 'max-w-6xl' : 'max-w-2xl'} rounded-2xl sm:rounded-3xl shadow-2xl flex flex-col h-[96vh] sm:h-auto max-h-[96vh] sm:max-h-[90vh] min-h-0 overflow-hidden transition-all duration-500`}>
+        <div className="fixed inset-0 z-[60] flex items-center justify-center p-0 sm:p-4 bg-slate-950/80 backdrop-blur-md transition-all duration-300">
+            <div className={`bg-white dark:bg-slate-900 border-x-0 sm:border border-slate-200 dark:border-slate-800 w-full ${previewMode ? 'max-w-6xl' : 'max-w-2xl'} rounded-none sm:rounded-3xl shadow-2xl flex flex-col h-full sm:h-auto max-h-full sm:max-h-[90vh] min-h-0 overflow-hidden transition-all duration-500`}>
                 <div className="p-4 sm:p-5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-white/50 dark:bg-slate-900/50">
                     <div className="flex items-center gap-3">
                         <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
@@ -202,7 +202,7 @@ const PostComposer = ({ isOpen, onClose, initialContent = '', initialDraftId, on
                     </div>
                 </div>
 
-                <div className="flex flex-1 min-h-0 overflow-hidden flex-col md:flex-row">
+                <div className="flex flex-1 min-h-0 overflow-hidden flex-col md:flex-row pb-20 md:pb-0">
                     {/* Editor Section */}
                     <div className="flex-1 min-w-0 min-h-0 overflow-y-auto p-4 sm:p-6 lg:p-8 space-y-6">
                         {/* Platform Selector */}
@@ -267,15 +267,16 @@ const PostComposer = ({ isOpen, onClose, initialContent = '', initialDraftId, on
                                             type="date"
                                             value={scheduledDate}
                                             onChange={(e) => setScheduledDate(e.target.value)}
-                                            className="bg-transparent text-xs font-bold text-slate-700 dark:text-slate-400 outline-none w-28"
+                                            className="bg-transparent text-xs font-bold text-slate-700 dark:text-white outline-none w-24 sm:w-28 [color-scheme:dark]"
                                         />
                                         <Clock size={16} className="text-slate-500 ml-1" />
                                         <input
                                             type="time"
                                             value={scheduledTime}
                                             onChange={(e) => setScheduledTime(e.target.value)}
-                                            className="bg-transparent text-xs font-bold text-slate-700 dark:text-slate-400 outline-none w-20"
+                                            className="bg-transparent text-xs font-bold text-slate-700 dark:text-white outline-none w-20 [color-scheme:dark]"
                                         />
+
                                     </div>
                                 </div>
                                 <div className="text-[10px] font-bold text-slate-600 self-end sm:self-auto">
@@ -338,6 +339,13 @@ const PostComposer = ({ isOpen, onClose, initialContent = '', initialDraftId, on
                                     "I can help you generate captions, brainstorm hashtags, or optimize your tone. Upload files to give me more context."
                                 </p>
                             </div>
+                            <button
+                                onClick={() => { onClose(); }} // Close to go back to page that has generator or as hint
+                                className="w-full py-3 px-4 bg-indigo-600/10 hover:bg-indigo-600/20 text-indigo-400 rounded-xl text-xs font-bold border border-indigo-500/20 transition-all flex items-center justify-center gap-2 group"
+                            >
+                                <Sparkles size={14} className="group-hover:rotate-12 transition-transform" />
+                                Launch Post Generator
+                            </button>
                         </div>
                         <div className="p-4 border-t border-slate-200 dark:border-slate-800 space-y-4 bg-white dark:bg-transparent">
                             <div className="flex items-center justify-center gap-2 flex-wrap">
@@ -387,28 +395,28 @@ const PostComposer = ({ isOpen, onClose, initialContent = '', initialDraftId, on
                     </div>
                 </div>
 
-                <div className="p-4 sm:p-6 border-t border-slate-200 dark:border-slate-800 shrink-0 sticky bottom-0 z-20 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between bg-slate-50 dark:bg-slate-900/80 backdrop-blur-md">
-                    <div className="flex items-center gap-2">
+                <div className="p-4 sm:p-6 border-t border-slate-200 dark:border-slate-800 shrink-0 sticky bottom-0 z-20 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between bg-white dark:bg-slate-900/95 backdrop-blur-md pb-safe-offset-4">
+                    <div className="hidden sm:flex items-center gap-2">
                         <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
                         <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">System Online</span>
                     </div>
-                    <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-2 sm:gap-3 w-full md:w-auto">
-                        <button onClick={onClose} className="w-full sm:w-auto px-5 py-2.5 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-bold text-sm transition-all">Abort</button>
+                    <div className="flex flex-row flex-wrap items-center justify-center sm:justify-end gap-2 sm:gap-3 w-full">
+                        <button onClick={onClose} className="px-4 py-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-bold text-xs transition-all uppercase tracking-widest">Abort</button>
                         <button
                             onClick={() => handleAction('save')}
                             disabled={isSaving}
-                            className="w-full sm:w-auto sm:flex-none justify-center px-5 py-2.5 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-white rounded-xl font-bold text-sm border border-slate-200 dark:border-slate-700 transition-all flex items-center gap-2 active:scale-95 disabled:opacity-50 shadow-sm"
+                            className="flex-1 sm:flex-none justify-center px-4 py-2.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-white rounded-xl font-bold text-xs border border-slate-200 dark:border-slate-700 transition-all flex items-center gap-2 active:scale-95 disabled:opacity-50 shadow-sm"
                         >
-                            {isSaving ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />}
-                            Save Draft
+                            {isSaving ? <Loader2 size={14} className="animate-spin" /> : <Save size={14} />}
+                            Save
                         </button>
                         <button
                             onClick={() => handleAction('schedule')}
                             disabled={isSaving}
-                            className={`w-full sm:w-auto sm:flex-none justify-center px-8 py-2.5 rounded-xl font-bold text-sm shadow-xl transition-all flex items-center gap-2 active:scale-95 disabled:opacity-50 ${platform === 'linkedin' ? 'bg-blue-600 text-white shadow-blue-600/20' : 'bg-slate-900 dark:bg-white text-white dark:text-slate-950 shadow-black/10 dark:shadow-white/10'}`}
+                            className={`flex-[1.5] sm:flex-none justify-center px-6 py-2.5 rounded-xl font-bold text-xs shadow-xl transition-all flex items-center gap-2 active:scale-95 disabled:opacity-50 ${platform === 'linkedin' ? 'bg-blue-600 text-white shadow-blue-600/20' : 'bg-slate-900 dark:bg-white text-white dark:text-slate-950 shadow-black/10 dark:shadow-white/10'}`}
                         >
-                            {isSaving ? <Loader2 size={16} className="animate-spin" /> : <SendHorizontal size={16} />}
-                            Schedule Post
+                            {isSaving ? <Loader2 size={14} className="animate-spin" /> : <SendHorizontal size={14} />}
+                            Post Now
                         </button>
                     </div>
                 </div>

@@ -50,8 +50,8 @@ class Settings(BaseSettings):
     AWS_PROFILE: Optional[str] = None
 
     # AWS Bedrock / Nova
-    NOVA_ACT_MODEL_ID: str = "us.amazon.nova-pro-act-v1:0"
-    NOVA_TEXT_MODEL_ID: str = "amazon.nova-pro-v1:0"
+    NOVA_ACT_MODEL_ID: str = "us.amazon.nova-pro-v1:0"
+    NOVA_TEXT_MODEL_ID: str = "us.amazon.nova-pro-v1:0"
 
     # S3 storage
     S3_BUCKET_NAME: str = "novapilot-media"

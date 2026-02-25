@@ -21,13 +21,31 @@ celery_app = Celery(
     backend=settings.REDIS_URL
 )
 
+# Robust Redis connection check for synchronous fallback (Eager Mode)
+_is_redis_available = False
+if settings.REDIS_URL and not settings.REDIS_URL.startswith("redis://localhost"):
+    try:
+        import redis
+        client = redis.from_url(settings.REDIS_URL, socket_connect_timeout=1)
+        if client.ping():
+            _is_redis_available = True
+        client.close()
+    except Exception:
+        _is_redis_available = False
+
+# Enable task_always_eager (Synchronous execution) if Redis is unavailable or not required.
+# This prevents 111 Connection Refused errors in environments without a separate worker process.
+should_be_eager = not _is_redis_available or not settings.REDIS_REQUIRED
+
 celery_app.conf.update(
     task_serializer='json',
     accept_content=['json'],
     result_serializer='json',
     timezone='UTC',
     enable_utc=True,
-    worker_concurrency=4
+    worker_concurrency=4,
+    task_always_eager=should_be_eager,
+    task_eager_propagates=True
 )
 
 # Service is used via ai_service singleton

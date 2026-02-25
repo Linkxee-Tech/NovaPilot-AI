@@ -66,22 +66,22 @@ const DraftsPage = () => {
 
     return (
         <div className="space-y-6">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                     <h1 className="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">Drafts</h1>
                     <p className="text-slate-600 dark:text-slate-400 text-sm">Manage your unfinished posts and ideas.</p>
                 </div>
-                <div className="flex gap-3">
+                <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
                     <button
                         onClick={() => setAIComposerOpen(true)}
-                        className="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2"
+                        className="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2"
                     >
                         <Sparkles size={16} />
                         Generate with AI
                     </button>
                     <button
                         onClick={() => { setSelectedDraft(null); setComposerOpen(true); }}
-                        className="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                        className="w-full sm:w-auto bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center justify-center"
                     >
                         New Draft
                     </button>
@@ -97,8 +97,8 @@ const DraftsPage = () => {
                             <div className="flex justify-between items-start mb-3">
                                 <span
                                     className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase border ${draft.platform === 'linkedin'
-                                            ? 'bg-blue-500/10 text-blue-400 border-blue-500/20'
-                                            : 'bg-slate-700 text-slate-300 border-slate-600'
+                                        ? 'bg-blue-500/10 text-blue-400 border-blue-500/20'
+                                        : 'bg-slate-700 text-slate-300 border-slate-600'
                                         }`}
                                 >
                                     {platformLabel(draft.platform)}

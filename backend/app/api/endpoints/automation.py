@@ -252,12 +252,32 @@ async def get_job_status(job_id: str):
         }
 
     from app.tasks.worker import celery_app as worker_celery
+    from app.core.db import SessionLocal
+    from app.api import crud
 
     result = worker_celery.AsyncResult(job_id)
+    state = result.state
+    error_message = None
+
+    # Fallback: If Celery doesn't know about this job, check the database status
+    if state == "PENDING" or not result.ready():
+        db = SessionLocal()
+        try:
+            # Try to find a post associated with this job_id (we store it in the post metadata or just search)
+            # Actually, we don't store job_id in the Post model directly in a standard way, 
+            # but let's check for any post that might be 'published' or 'failed' recently.
+            # A better way is to check the AuditLog if we have a job_id there.
+            from app.models.audit_log import AuditLog
+            log = db.query(AuditLog).filter(AuditLog.action_id == job_id).first()
+            if log:
+                state = "SUCCESS" if log.status == "SUCCESS" else "FAILURE" if log.status == "FAILED" else state
+                error_message = log.error
+        finally:
+            db.close()
+
     info = result.info if isinstance(result.info, dict) else {}
 
-    error_message = None
-    if result.failed():
+    if result.failed() and not error_message:
         if isinstance(result.info, Exception):
             error_message = str(result.info)
         elif isinstance(result.result, Exception):
@@ -267,11 +287,11 @@ async def get_job_status(job_id: str):
 
     return {
         "job_id": job_id,
-        "state": result.state,
-        "ready": result.ready(),
-        "successful": result.successful() if result.ready() else False,
+        "state": state,
+        "ready": result.ready() or state in ["SUCCESS", "FAILURE"],
+        "successful": result.successful() if result.ready() else (state == "SUCCESS"),
         "retry_count": info.get("retry_count", 0),
-        "trace_id": info.get("trace_id"),
+        "trace_id": info.get("trace_id") or (job_id if state != "PENDING" else None),
         "post_id": info.get("post_id"),
         "error": error_message,
         "result": result.result if result.ready() and result.successful() else None,

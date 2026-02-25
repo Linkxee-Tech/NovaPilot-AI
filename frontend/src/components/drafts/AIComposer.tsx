@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { X, Send, Sparkles, MessageSquare, Save, Bot, User } from 'lucide-react';
+import { toast } from 'sonner';
 import client from '../../api/client';
 
 interface Message {
@@ -115,7 +116,7 @@ const AIComposer: React.FC<AIComposerProps> = ({ isOpen, onClose, onApply, draft
         <div className="fixed inset-0 z-50 flex items-center justify-end">
             <div className="absolute inset-0 bg-slate-950/60 backdrop-blur-sm" onClick={onClose} />
 
-            <div className="relative w-full max-w-lg h-full bg-white dark:bg-slate-900 border-l border-slate-200 dark:border-slate-800 shadow-2xl flex flex-col animate-in slide-in-from-right duration-300">
+            <div className="relative w-full max-w-lg h-[92vh] sm:h-full bg-white dark:bg-slate-900 border-l border-slate-200 dark:border-slate-800 shadow-2xl flex flex-col animate-in slide-in-from-right duration-300 rounded-t-3xl sm:rounded-none mt-auto sm:mt-0">
                 {/* Header */}
                 <div className="p-6 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-white/50 dark:bg-slate-900/50 backdrop-blur-md sticky top-0 z-20">
                     <div className="flex items-center gap-3">
@@ -157,7 +158,10 @@ const AIComposer: React.FC<AIComposerProps> = ({ isOpen, onClose, onApply, draft
                                 {msg.content}
                                 {msg.role === 'assistant' && (
                                     <button
-                                        onClick={() => onApply(msg.content)}
+                                        onClick={() => {
+                                            onApply(msg.content);
+                                            toast.success('Applied to post. You can continue refining or close to view.', { duration: 2000 });
+                                        }}
                                         className="mt-3 flex items-center gap-1.5 text-xs text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 transition-colors font-medium border-t border-slate-200 dark:border-slate-700 pt-2 w-full"
                                     >
                                         <Save size={12} />

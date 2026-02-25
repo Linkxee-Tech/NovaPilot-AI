@@ -198,8 +198,8 @@ const AutomationPage = () => {
                         <div className="space-y-2">
                             {planResult.tasks.map((task) => (
                                 <div key={task.id} className="border border-slate-200 dark:border-slate-800 rounded p-2">
-                                    <div className="font-semibold text-slate-900 dark:text-slate-200">#{task.id} {task.title}</div>
-                                    <div className="text-slate-400 mt-1">{task.goal}</div>
+                                    <div className="font-semibold text-slate-900 dark:text-white uppercase text-[10px] mb-1">{task.title}</div>
+                                    <div className="text-slate-400">{task.goal}</div>
                                     <div className="mt-1 text-[10px] uppercase text-slate-500">
                                         {task.action_type}
                                         {task.requires_human_approval ? ' - requires approval' : ''}
@@ -212,8 +212,8 @@ const AutomationPage = () => {
                                 <div className="text-slate-400">Execution</div>
                                 {planResult.execution.map((item) => (
                                     <div key={`${item.task_id}-${item.status}`} className="text-[11px] text-slate-300">
-                                        #{item.task_id} {item.task_title}: <span className="font-semibold">{item.status}</span>
-                                        {item.job_id ? ` (job ${item.job_id})` : ''}
+                                        {item.task_title}: <span className="font-semibold">{item.status}</span>
+                                        {item.job_id ? ` (ID: ${item.job_id.substring(0, 8)}...)` : ''}
                                         {item.error ? ` - ${item.error}` : ''}
                                     </div>
                                 ))}
@@ -270,7 +270,7 @@ const AutomationPage = () => {
                             <div key={post.id} className="p-4">
                                 <div className="flex items-start justify-between gap-4 mb-3">
                                     <div>
-                                        <p className="text-sm font-medium text-slate-900 dark:text-white">Post #{post.id} ({post.platform})</p>
+                                        <p className="text-sm font-medium text-slate-900 dark:text-white">Post {post.id} ({post.platform})</p>
                                         <p className="text-xs text-slate-600 dark:text-slate-400 line-clamp-2">{post.content}</p>
                                         <p className="text-[11px] text-slate-500 mt-1 flex items-center gap-1">
                                             <Clock size={12} />

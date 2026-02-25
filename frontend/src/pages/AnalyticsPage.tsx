@@ -111,15 +111,15 @@ const AnalyticsPage = () => {
                     <h1 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight uppercase italic">Analytics</h1>
                     <p className="text-slate-600 dark:text-slate-500 text-sm font-medium">Performance overview for your recent posts.</p>
                 </div>
-                <div className="flex flex-col xs:flex-row items-start sm:items-center gap-3">
-                    <select className="bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-xl text-[10px] font-black uppercase text-slate-900 dark:text-white px-4 py-2.5 outline-none cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors w-full xs:w-auto">
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
+                    <select className="bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-xl text-[10px] font-black uppercase text-slate-900 dark:text-white px-4 py-2.5 outline-none cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors w-full sm:w-40">
                         <option>All Platforms</option>
                         <option>LinkedIn</option>
                         <option>Twitter</option>
                     </select>
                     <button
                         onClick={handleExport}
-                        className="flex items-center justify-center gap-2 px-6 py-2.5 bg-blue-600 hover:bg-blue-500 text-white text-[10px] font-black uppercase tracking-widest rounded-xl transition-all shadow-lg shadow-blue-500/20 active:scale-95 w-full xs:w-auto"
+                        className="flex items-center justify-center gap-2 px-6 py-2.5 bg-blue-600 hover:bg-blue-500 text-white text-[10px] font-black uppercase tracking-widest rounded-xl transition-all shadow-lg shadow-blue-500/20 active:scale-95 w-full sm:w-auto"
                     >
                         <BarChart3 size={14} />
                         Export Data

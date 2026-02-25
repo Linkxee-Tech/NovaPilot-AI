@@ -19,9 +19,11 @@ interface Notification {
 interface HeaderProps {
     collapsed: boolean;
     setCollapsed: (collapsed: boolean) => void;
+    mobileOpen: boolean;
+    setMobileOpen: (open: boolean) => void;
 }
 
-const Header = ({ collapsed, setCollapsed }: HeaderProps) => {
+const Header = ({ collapsed, setCollapsed, mobileOpen, setMobileOpen }: HeaderProps) => {
     const navigate = useNavigate();
     const { theme, toggleTheme } = useTheme();
     const { user, clearAuth } = useAuth();
@@ -56,7 +58,13 @@ const Header = ({ collapsed, setCollapsed }: HeaderProps) => {
             <div className="flex items-center gap-4">
                 <div className="flex items-center gap-3">
                     <button
-                        onClick={() => setCollapsed(!collapsed)}
+                        onClick={() => {
+                            if (window.innerWidth < 1024) {
+                                setMobileOpen(!mobileOpen);
+                            } else {
+                                setCollapsed(!collapsed);
+                            }
+                        }}
                         className="p-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
                     >
                         <Menu size={20} />

@@ -8,6 +8,7 @@ import {
     Cpu,
     Settings,
     ShieldCheck,
+    Database,
 } from 'lucide-react';
 import { cn } from '../../utils/cn';
 import { useAuth } from '../../store/useAuth';
@@ -38,6 +39,7 @@ const Sidebar = ({
         { icon: Cpu, label: 'Automation', path: '/automation' },
         { icon: FileText, label: 'Drafts', path: '/drafts' },
         { icon: BarChart3, label: 'Analytics', path: '/analytics' },
+        { icon: Database, label: 'Social Accounts', path: '/settings' },
         { icon: ScrollText, label: 'Audit Logs', path: '/audit-logs' },
         { icon: Settings, label: 'Settings', path: '/settings' },
         { icon: ShieldCheck, label: 'Feature Flags', path: '/feature-flags' },
@@ -69,6 +71,7 @@ const Sidebar = ({
                                 <li key={item.path}>
                                     <Link
                                         to={item.path}
+                                        onClick={() => setMobileOpen?.(false)}
                                         className={cn(
                                             "flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 group",
                                             isActive
@@ -93,6 +96,7 @@ const Sidebar = ({
                 <div className="p-4 border-t border-slate-200 dark:border-slate-800">
                     <Link
                         to="/settings"
+                        onClick={() => setMobileOpen?.(false)}
                         className={cn("flex items-center gap-3 w-full p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400 transition-colors", collapsed ? "justify-center" : "justify-start")}
                     >
                         <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-blue-500 to-indigo-600 flex items-center justify-center shrink-0 shadow-lg shadow-blue-600/20">

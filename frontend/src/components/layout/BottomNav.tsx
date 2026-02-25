@@ -1,15 +1,15 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Calendar, BarChart2, Settings, Home, List } from 'lucide-react';
+import { LayoutDashboard, CalendarDays, BarChart3, Settings, FileText } from 'lucide-react';
 import { cn } from '../../utils/cn';
 
 const BottomNav = () => {
     const location = useLocation();
 
     const navItems = [
-        { path: '/dashboard', label: 'Home', icon: Home },
-        { path: '/scheduler', label: 'Plan', icon: Calendar },
-        { path: '/drafts', label: 'Drafts', icon: List },
-        { path: '/analytics', label: 'Stats', icon: BarChart2 },
+        { path: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+        { path: '/scheduler', label: 'Scheduler', icon: CalendarDays },
+        { path: '/drafts', label: 'Drafts', icon: FileText },
+        { path: '/analytics', label: 'Analytics', icon: BarChart3 },
         { path: '/settings', label: 'Settings', icon: Settings },
     ];
 

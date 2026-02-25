@@ -14,6 +14,8 @@ const MainLayout = () => {
             <Header
                 collapsed={collapsed}
                 setCollapsed={setCollapsed}
+                mobileOpen={mobileOpen}
+                setMobileOpen={setMobileOpen}
             />
             <div className="flex flex-1 w-full overflow-hidden">
                 <NavigationSidebar

@@ -72,6 +72,7 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(
         env_file=".env",
         case_sensitive=True,
+        extra="ignore",
     )
 
     def __init__(self, **kwargs):

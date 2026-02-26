@@ -20,7 +20,7 @@ describe('Experiment', () => {
     });
 
     it('renders CalendarView', async () => {
-        renderWithProviders(<CalendarView onDateSelect={() => { }} />);
+        renderWithProviders(<CalendarView onDateSelect={() => { }} onPostSelect={() => { }} />);
         expect(await screen.findByText(/^Sun$/)).toBeInTheDocument();
     });
 

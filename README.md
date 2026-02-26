@@ -21,6 +21,7 @@ Install and run:
 pip install -r requirements.txt
 cp .env.example .env   # Windows PowerShell: Copy-Item .env.example .env
 uvicorn app.main:app --reload
+
 ```
 
 ### 2. Frontend
@@ -59,7 +60,5 @@ npm run build
 ## Deployment
 
 See `DEPLOYMENT.md` for production setup (`systemd`, Nginx, SSL, health checks).
-
-## License
 
 MIT. See `LICENSE.md`.

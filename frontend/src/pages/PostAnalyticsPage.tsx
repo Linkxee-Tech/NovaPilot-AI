@@ -1,8 +1,9 @@
-import { ArrowLeft, TrendingUp, Eye, MousePointerClick, Share2, MessageCircle, Loader2, Target, BarChart3 } from 'lucide-react';
+import { TrendingUp, Eye, MousePointerClick, Share2, MessageCircle, Loader2, Target, BarChart3 } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 import { useQuery } from '@tanstack/react-query';
 import client from '../api/client';
+import BackButton from '../components/common/BackButton';
 
 const PostAnalyticsPage = () => {
     const navigate = useNavigate();
@@ -59,12 +60,7 @@ const PostAnalyticsPage = () => {
         <div className="space-y-8 animate-in fade-in duration-700">
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-6">
-                    <button
-                        onClick={() => navigate(-1)}
-                        className="p-3 bg-white dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white rounded-2xl transition-all border border-slate-200 dark:border-slate-700/50 active:scale-90 shadow-sm dark:shadow-none"
-                    >
-                        <ArrowLeft size={20} />
-                    </button>
+                    <BackButton />
                     <div>
                         <div className="flex items-center gap-2 mb-1">
                             <BarChart3 className="text-blue-500" size={14} />

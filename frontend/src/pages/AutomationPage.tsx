@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import BackButton from '../components/common/BackButton';
 import { Activity, Clock, RefreshCcw, Search, BrainCircuit, ListChecks, Play } from 'lucide-react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
@@ -69,7 +70,7 @@ const AutomationPage = () => {
     const [executePlan, setExecutePlan] = useState(false);
     const [planResult, setPlanResult] = useState<PlanResponse | null>(null);
 
-    const { data: posts = [], isLoading, refetch } = useQuery({
+    const { data: posts = [], isLoading, isRefetching, refetch } = useQuery({
         queryKey: ['automation-posts'],
         queryFn: async () => {
             const response = await client.get('/posts/posts?limit=50');
@@ -142,16 +143,21 @@ const AutomationPage = () => {
 
     return (
         <div className="space-y-6">
+            <BackButton />
             <div className="flex items-center justify-between gap-3 flex-wrap">
                 <div>
                     <h1 className="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">Automation</h1>
                     <p className="text-slate-600 dark:text-slate-400 text-sm">Track queued and running publishing jobs.</p>
                 </div>
                 <button
-                    onClick={() => refetch()}
-                    className="px-3 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 text-sm flex items-center gap-2 transition-colors border border-slate-200 dark:border-transparent"
+                    onClick={() => {
+                        refetch();
+                        toast.success('Data refreshed');
+                    }}
+                    disabled={isRefetching}
+                    className="px-3 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 text-sm flex items-center gap-2 transition-colors border border-slate-200 dark:border-transparent disabled:opacity-50"
                 >
-                    <RefreshCcw size={16} />
+                    <RefreshCcw size={16} className={cn(isRefetching && "animate-spin")} />
                     Refresh
                 </button>
             </div>

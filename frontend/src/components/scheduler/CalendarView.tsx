@@ -21,6 +21,7 @@ import { toast } from 'sonner';
 
 interface CalendarViewProps {
     onDateSelect: (date: Date) => void;
+    onPostSelect: (post: CalendarPost) => void;
 }
 
 interface CalendarPost {
@@ -32,7 +33,7 @@ interface CalendarPost {
 }
 
 // Draggable Post Component
-const DraggablePost = ({ post }: { post: CalendarPost }) => {
+const DraggablePost = ({ post, onClick }: { post: CalendarPost, onClick: () => void }) => {
     const { attributes, listeners, setNodeRef, transform } = useDraggable({
         id: post.id.toString(),
     });
@@ -44,7 +45,7 @@ const DraggablePost = ({ post }: { post: CalendarPost }) => {
     } : undefined;
 
     return (
-        <div ref={setNodeRef} style={style} {...listeners} {...attributes} className="cursor-grab active:cursor-grabbing">
+        <div ref={setNodeRef} style={style} {...listeners} {...attributes} className="cursor-grab active:cursor-grabbing" onClick={onClick}>
             <div className={cn(
                 "border rounded p-1.5 flex items-start gap-2 group/post transition-all shadow-sm",
                 post.status === 'scheduled'
@@ -96,7 +97,7 @@ const DroppableDay = ({ day, isCurrentMonth, isToday, children, onClick }: Dropp
             ref={setNodeRef}
             onClick={onClick}
             className={cn(
-                "min-h-[140px] p-2 border-b border-r border-slate-200 dark:border-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-800/30 transition-colors cursor-pointer group relative",
+                "min-h-[100px] md:min-h-[140px] p-1 md:p-2 border-b border-r border-slate-200 dark:border-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-800/30 transition-colors cursor-pointer group relative",
                 !isCurrentMonth && "bg-slate-50 dark:bg-slate-900/30 opacity-40",
                 isToday && "bg-blue-600/5",
                 isOver && "bg-blue-600/10 ring-2 ring-inset ring-blue-500/50"
@@ -118,7 +119,7 @@ const DroppableDay = ({ day, isCurrentMonth, isToday, children, onClick }: Dropp
     );
 };
 
-const CalendarView = ({ onDateSelect }: CalendarViewProps) => {
+const CalendarView = ({ onDateSelect, onPostSelect }: CalendarViewProps) => {
     const [currentDate, setCurrentDate] = useState(new Date());
     const queryClient = useQueryClient();
 
@@ -237,7 +238,7 @@ const CalendarView = ({ onDateSelect }: CalendarViewProps) => {
                                 onClick={() => onDateSelect(day)}
                             >
                                 {dayPosts.map((post) => (
-                                    <DraggablePost key={post.id} post={post} />
+                                    <DraggablePost key={post.id} post={post} onClick={() => onPostSelect(post)} />
                                 ))}
                             </DroppableDay>
                         );

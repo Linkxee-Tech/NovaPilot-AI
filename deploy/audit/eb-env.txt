@@ -1,9 +1,0 @@
-﻿ Environment Variables:
-     ALLOWED_ORIGINS = https://d2v9dvboqxqocd.cloudfront.net,https://novapilot.ai,https://www.novapilot.ai,http://localhost:5173,http://127.0.0.1:5173
-     DATABASE_URL = postgresql://postgres:YOUR_PASSWORD@novapilot-postgres.ca3uowigeiot.us-east-1.rds.amazonaws.com:5432/postgres
-     ENV = production
-     PYTHONPATH = /var/app/venv/staging-LQM1lest/bin
-     REDIS_REQUIRED = false
-     SECRET_KEY = ]LU{!Rvepg;c?}xYnm<B|M,f3/0#hy&\wN'W59Pba`2z=s~1*Xk^%.8QTlDKJ4Zi
-     USE_AWS_SECRETS = false
-     USE_SQLITE = false

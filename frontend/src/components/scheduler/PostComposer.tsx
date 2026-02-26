@@ -6,15 +6,35 @@ import client from '../../api/client';
 import { aiService } from '../../api/aiService';
 import { normalizeApiErrorMessage } from '../../utils/apiError';
 
+interface InitialPost {
+    id?: number;
+    content?: string;
+    platform?: string;
+    media_url?: string | null;
+    scheduled_at?: string | null;
+}
+
 interface PostComposerProps {
     isOpen: boolean;
     onClose: () => void;
     initialContent?: string;
     initialDraftId?: number;
+    initialPost?: InitialPost | null;
+    initialDate?: Date | null;
     onSuccess?: () => void;
+    onLaunchAI?: () => void;
 }
 
-const PostComposer = ({ isOpen, onClose, initialContent = '', initialDraftId, onSuccess }: PostComposerProps) => {
+const PostComposer = ({
+    isOpen,
+    onClose,
+    initialContent = '',
+    initialDraftId,
+    initialPost,
+    initialDate,
+    onSuccess,
+    onLaunchAI
+}: PostComposerProps) => {
     const [content, setContent] = useState(initialContent);
     const [platform, setPlatform] = useState<'linkedin' | 'twitter'>('linkedin');
     const [isOptimizing, setIsOptimizing] = useState(false);
@@ -38,13 +58,32 @@ const PostComposer = ({ isOpen, onClose, initialContent = '', initialDraftId, on
 
     useEffect(() => {
         if (isOpen) {
-            setContent(initialContent);
-            setMediaUrl(null);
-            setMediaMetadata(null);
-            setEditingDraftId(initialDraftId);
+            if (initialPost) {
+                setContent(initialPost.content || '');
+                setPlatform((initialPost.platform as 'linkedin' | 'twitter') || 'linkedin');
+                setMediaUrl(initialPost.media_url || null);
+                setEditingDraftId(undefined);
+                if (initialPost.scheduled_at) {
+                    const dt = new Date(initialPost.scheduled_at);
+                    setScheduledDate(dt.toISOString().split('T')[0]);
+                    setScheduledTime(dt.toTimeString().split(' ')[0].substring(0, 5));
+                }
+            } else if (initialDate) {
+                setContent(initialContent);
+                setMediaUrl(null);
+                setMediaMetadata(null);
+                setEditingDraftId(initialDraftId);
+                setScheduledDate(initialDate.toISOString().split('T')[0]);
+                setScheduledTime(new Date().toTimeString().split(' ')[0].substring(0, 5));
+            } else {
+                setContent(initialContent);
+                setMediaUrl(null);
+                setMediaMetadata(null);
+                setEditingDraftId(initialDraftId);
+            }
             setIsCopilotOpenMobile(false);
         }
-    }, [initialContent, initialDraftId, isOpen]);
+    }, [initialContent, initialDraftId, initialPost, initialDate, isOpen]);
 
     const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -140,14 +179,25 @@ const PostComposer = ({ isOpen, onClose, initialContent = '', initialDraftId, on
                     toast.success('Draft saved.');
                 }
             } else {
-                const postResponse = await client.post('/posts/posts', {
-                    content,
-                    platform,
-                    media_url: mediaUrl,
-                    scheduled_at: `${scheduledDate}T${scheduledTime}:00`
-                });
-                await client.post(`/posts/posts/${postResponse.data.id}/schedule`);
-                toast.success('Post scheduled.');
+                if (initialPost) {
+                    // Update existing scheduled post
+                    await client.patch(`/posts/posts/${initialPost.id}`, {
+                        content,
+                        platform,
+                        media_url: mediaUrl,
+                        scheduled_at: `${scheduledDate}T${scheduledTime}:00`
+                    });
+                    toast.success('Post updated.');
+                } else {
+                    const postResponse = await client.post('/posts/posts', {
+                        content,
+                        platform,
+                        media_url: mediaUrl,
+                        scheduled_at: `${scheduledDate}T${scheduledTime}:00`
+                    });
+                    await client.post(`/posts/posts/${postResponse.data.id}/schedule`);
+                    toast.success('Post scheduled.');
+                }
             }
 
             onSuccess?.();
@@ -290,16 +340,16 @@ const PostComposer = ({ isOpen, onClose, initialContent = '', initialDraftId, on
                             <div className="space-y-3 animate-in fade-in slide-in-from-top-2 duration-300">
                                 <label className="text-[10px] uppercase font-bold tracking-widest text-slate-500 ml-1">Live Signal Preview</label>
                                 {platform === 'linkedin' ? (
-                                    <div className="bg-white rounded-lg p-4 shadow-xl text-slate-950 space-y-3 border border-slate-100">
-                                        <div className="flex gap-2">
-                                            <div className="w-10 h-10 bg-slate-200 rounded-sm" />
-                                            <div className="space-y-1">
-                                                <div className="h-3 bg-slate-200 rounded w-24" />
-                                                <div className="h-2 bg-slate-100 rounded w-16" />
+                                    <div className="bg-white dark:bg-[#1d2226] rounded-lg p-4 shadow-xl text-slate-900 dark:text-white/90 space-y-3 border border-slate-100 dark:border-slate-800 transition-colors">
+                                        <div className="flex items-center gap-2">
+                                            <div className="w-10 h-10 rounded bg-slate-200 dark:bg-slate-800" />
+                                            <div>
+                                                <div className="h-2.5 w-24 bg-slate-200 dark:bg-slate-800 rounded mb-1" />
+                                                <div className="h-2 w-16 bg-slate-100 dark:bg-slate-900 rounded" />
                                             </div>
                                         </div>
-                                        <div className="text-sm whitespace-pre-wrap leading-relaxed min-h-[60px]">
-                                            {content || <span className="text-slate-300 italic">LinkedIn Preview...</span>}
+                                        <div className="whitespace-pre-wrap text-sm min-h-[100px] leading-relaxed">
+                                            {content || <span className="text-slate-400 italic">Post content will appear here...</span>}
                                         </div>
                                         {mediaUrl && <img src={resolveMediaUrl(mediaUrl)} className="w-full rounded-lg" />}
                                     </div>
@@ -340,8 +390,14 @@ const PostComposer = ({ isOpen, onClose, initialContent = '', initialDraftId, on
                                 </p>
                             </div>
                             <button
-                                onClick={() => { onClose(); }} // Close to go back to page that has generator or as hint
-                                className="w-full py-3 px-4 bg-indigo-600/10 hover:bg-indigo-600/20 text-indigo-400 rounded-xl text-xs font-bold border border-indigo-500/20 transition-all flex items-center justify-center gap-2 group"
+                                onClick={() => {
+                                    if (onLaunchAI) {
+                                        onLaunchAI();
+                                    } else {
+                                        onClose();
+                                    }
+                                }}
+                                className="w-full py-3 px-4 bg-indigo-600/10 hover:bg-indigo-600/20 text-indigo-600 dark:text-indigo-400 rounded-xl text-xs font-bold border border-indigo-500/20 transition-all flex items-center justify-center gap-2 group"
                             >
                                 <Sparkles size={14} className="group-hover:rotate-12 transition-transform" />
                                 Launch Post Generator

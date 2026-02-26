@@ -3,14 +3,14 @@ import type { CSSProperties } from 'react';
 const Skeleton = ({ className, style }: { className?: string; style?: CSSProperties }) => {
     return (
         <div
-            className={`animate-pulse bg-slate-800/50 rounded-lg ${className}`}
+            className={`animate-pulse bg-slate-200 dark:bg-slate-800/50 rounded-lg ${className}`}
             style={style}
         />
     );
 };
 
 export const KPICardSkeleton = () => (
-    <div className="bg-slate-900 border border-slate-800/50 rounded-2xl p-6 space-y-4 shadow-xl">
+    <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800/50 rounded-2xl p-6 space-y-4 shadow-xl">
         <div className="flex justify-between items-start">
             <Skeleton className="h-4 w-24" />
             <Skeleton className="h-8 w-8 rounded-xl" />
@@ -23,7 +23,7 @@ export const KPICardSkeleton = () => (
 );
 
 export const ChartSkeleton = () => (
-    <div className="bg-slate-900 border border-slate-800/50 rounded-2xl p-8 h-[400px] shadow-2xl space-y-8">
+    <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800/50 rounded-2xl p-8 h-[400px] shadow-2xl space-y-8">
         <div className="flex justify-between items-start">
             <div className="space-y-2">
                 <Skeleton className="h-6 w-48" />
@@ -47,8 +47,8 @@ export const ChartSkeleton = () => (
 );
 
 export const TableSkeleton = () => (
-    <div className="bg-slate-900 border border-slate-800/50 rounded-2xl shadow-2xl overflow-hidden">
-        <div className="p-8 border-b border-slate-800/50 space-y-2">
+    <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800/50 rounded-2xl shadow-2xl overflow-hidden">
+        <div className="p-8 border-b border-slate-200 dark:border-slate-800/50 space-y-2">
             <Skeleton className="h-6 w-48" />
             <Skeleton className="h-3 w-64" />
         </div>

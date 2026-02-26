@@ -55,12 +55,54 @@ const DraftsPage = () => {
 
     const handleApplyAI = (content: string) => {
         setAIComposerOpen(false);
+        setSelectedDraft(prev => ({
+            id: prev?.id || 0,
+            content,
+            platform: prev?.platform || 'linkedin',
+            updated_at: new Date().toISOString()
+        }));
+        setComposerOpen(true);
+    };
+
+    const [isSelectingForAppend, setIsSelectingForAppend] = useState(false);
+    const [pendingAppendContent, setPendingAppendContent] = useState('');
+
+    const handleAppendAI = (content: string) => {
+        setAIComposerOpen(false);
+        if (!selectedDraft) {
+            setPendingAppendContent(content);
+            setIsSelectingForAppend(true);
+        } else {
+            setSelectedDraft(prev => ({
+                id: prev?.id || 0,
+                content: prev?.content ? `${prev.content}\n\n${content}` : content,
+                platform: prev?.platform || 'linkedin',
+                updated_at: new Date().toISOString()
+            }));
+            setComposerOpen(true);
+        }
+    };
+
+    const handleSelectDraftForAppend = (draft: Draft) => {
+        setSelectedDraft({
+            ...draft,
+            content: `${draft.content}\n\n${pendingAppendContent}`,
+            updated_at: new Date().toISOString()
+        });
+        setIsSelectingForAppend(false);
+        setPendingAppendContent('');
+        setComposerOpen(true);
+    };
+
+    const handleCreateNewFromAppend = () => {
         setSelectedDraft({
             id: 0,
-            content,
+            content: pendingAppendContent,
             platform: 'linkedin',
             updated_at: new Date().toISOString()
         });
+        setIsSelectingForAppend(false);
+        setPendingAppendContent('');
         setComposerOpen(true);
     };
 
@@ -151,14 +193,68 @@ const DraftsPage = () => {
                     queryClient.invalidateQueries({ queryKey: ['drafts'] });
                     queryClient.invalidateQueries({ queryKey: ['posts'] });
                 }}
+                onLaunchAI={() => {
+                    setComposerOpen(false);
+                    setAIComposerOpen(true);
+                }}
             />
 
             <AIComposer
                 isOpen={isAIComposerOpen}
                 onClose={() => setAIComposerOpen(false)}
                 onApply={handleApplyAI}
+                onAppend={handleAppendAI}
                 draftId={selectedDraft?.id}
             />
+            {isSelectingForAppend && (
+                <div className="fixed inset-0 z-[100] bg-slate-950/50 backdrop-blur-sm flex items-center justify-center p-4">
+                    <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl w-full max-w-lg shadow-2xl overflow-hidden flex flex-col max-h-[80vh]">
+                        <div className="p-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
+                            <div>
+                                <h3 className="text-lg font-bold text-slate-900 dark:text-white">Append to which post?</h3>
+                                <p className="text-sm text-slate-500">Select an existing draft or create a new one.</p>
+                            </div>
+                            <button
+                                onClick={() => setIsSelectingForAppend(false)}
+                                className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                        <div className="flex-1 overflow-y-auto p-4 space-y-3">
+                            <button
+                                onClick={handleCreateNewFromAppend}
+                                className="w-full p-4 border-2 border-dashed border-indigo-200 dark:border-indigo-900/50 rounded-xl hover:bg-indigo-50 dark:hover:bg-indigo-950/20 text-indigo-600 dark:text-indigo-400 font-bold transition-all flex items-center justify-center gap-2 group"
+                            >
+                                <Sparkles size={18} className="group-hover:rotate-12 transition-transform" />
+                                Create New Post with this content
+                            </button>
+
+                            <div className="text-[10px] font-black uppercase tracking-widest text-slate-400 px-2 pt-2">Existing Drafts</div>
+
+                            {drafts.map((draft) => (
+                                <button
+                                    key={draft.id}
+                                    onClick={() => handleSelectDraftForAppend(draft)}
+                                    className="w-full text-left p-4 bg-slate-50 dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-800 transition-all group"
+                                >
+                                    <div className="flex justify-between items-start mb-2">
+                                        <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase border bg-blue-500/10 text-blue-400 border-blue-500/20">
+                                            {platformLabel(draft.platform)}
+                                        </span>
+                                        <span className="text-[10px] text-slate-500">{new Date(draft.updated_at).toLocaleDateString()}</span>
+                                    </div>
+                                    <p className="text-sm text-slate-700 dark:text-slate-300 line-clamp-2 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">{draft.content}</p>
+                                </button>
+                            ))}
+
+                            {drafts.length === 0 && (
+                                <p className="text-center py-6 text-sm text-slate-500 italic">No existing drafts found.</p>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

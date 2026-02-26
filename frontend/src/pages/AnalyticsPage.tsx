@@ -6,6 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import client from '../api/client';
 import Skeleton, { KPICardSkeleton, ChartSkeleton, TableSkeleton } from '../components/ui/Skeleton';
 import { toast } from 'sonner';
+import BackButton from '../components/common/BackButton';
 
 interface AnalyticsData {
     timestamp?: string;
@@ -75,7 +76,7 @@ const AnalyticsPage = () => {
                     <div className="lg:col-span-2">
                         <ChartSkeleton />
                     </div>
-                    <div className="bg-slate-900 border border-slate-800/50 rounded-2xl p-8 h-[400px]">
+                    <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800/50 rounded-2xl p-8 h-[400px]">
                         <Skeleton className="h-full w-full" />
                     </div>
                 </div>
@@ -102,6 +103,7 @@ const AnalyticsPage = () => {
 
     return (
         <div className="space-y-8 animate-in fade-in duration-700">
+            <BackButton />
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
                 <div>
                     <div className="flex items-center gap-2 mb-1">

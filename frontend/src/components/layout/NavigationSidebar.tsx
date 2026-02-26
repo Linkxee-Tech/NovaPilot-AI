@@ -9,9 +9,14 @@ import {
     Settings,
     ShieldCheck,
     Database,
+    Sun,
+    Moon,
+    Bell
 } from 'lucide-react';
 import { cn } from '../../utils/cn';
 import { useAuth } from '../../store/useAuth';
+import { useTheme } from '../../context/useTheme';
+import Logo from '../common/Logo';
 
 interface SidebarProps {
     collapsed: boolean;
@@ -26,6 +31,7 @@ const Sidebar = ({
     setMobileOpen
 }: SidebarProps) => {
     const { user } = useAuth();
+    const { theme, toggleTheme } = useTheme();
 
     // Get initials from user name
     const getInitials = () => {
@@ -57,11 +63,21 @@ const Sidebar = ({
 
             <aside
                 className={cn(
-                    "h-[calc(100vh-64px)] bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white flex flex-col fixed left-0 top-16 z-[40] transition-all duration-300 shadow-xl",
+                    "h-full lg:h-[calc(100vh-64px)] bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white flex flex-col fixed left-0 top-0 lg:top-16 z-[60] transition-all duration-300 shadow-xl",
                     collapsed ? "w-20" : "w-[280px]",
                     !mobileOpen && "-translate-x-full lg:translate-x-0"
                 )}
             >
+                {/* Mobile Sidebar Header with Logo */}
+                <div className="lg:hidden p-6 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                    <Logo className="h-8" />
+                    <button
+                        onClick={() => setMobileOpen?.(false)}
+                        className="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+                    >
+                        <Settings size={20} className="rotate-90" />
+                    </button>
+                </div>
 
                 <nav className="flex-1 overflow-y-auto py-4 scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-slate-700">
                     <ul className="space-y-1 px-2">
@@ -93,7 +109,22 @@ const Sidebar = ({
                     </ul>
                 </nav>
 
-                <div className="p-4 border-t border-slate-200 dark:border-slate-800">
+                <div className="p-4 border-t border-slate-200 dark:border-slate-800 space-y-2">
+                    {/* Mobile Only Actions */}
+                    <div className="lg:hidden flex items-center justify-between px-2 mb-4">
+                        <button
+                            onClick={toggleTheme}
+                            className="p-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors flex items-center gap-2 text-xs font-bold uppercase tracking-widest"
+                        >
+                            {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+                            {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+                        </button>
+                        <button className="p-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors relative">
+                            <Bell size={18} />
+                            <div className="absolute top-2 right-2 w-1.5 h-1.5 bg-blue-600 rounded-full border border-white dark:border-slate-900" />
+                        </button>
+                    </div>
+
                     <Link
                         to="/settings"
                         onClick={() => setMobileOpen?.(false)}

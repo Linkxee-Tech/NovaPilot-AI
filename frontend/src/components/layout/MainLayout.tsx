@@ -11,13 +11,15 @@ const MainLayout = () => {
 
     return (
         <div className="min-h-screen w-full bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans selection:bg-blue-500/30 flex flex-col transition-colors duration-300">
-            <Header
-                collapsed={collapsed}
-                setCollapsed={setCollapsed}
-                mobileOpen={mobileOpen}
-                setMobileOpen={setMobileOpen}
-            />
-            <div className="flex flex-1 w-full overflow-hidden">
+            <div className="hidden lg:block contents">
+                <Header
+                    collapsed={collapsed}
+                    setCollapsed={setCollapsed}
+                    mobileOpen={mobileOpen}
+                    setMobileOpen={setMobileOpen}
+                />
+            </div>
+            <div className="flex flex-1 w-full overflow-hidden relative">
                 <NavigationSidebar
                     collapsed={collapsed}
                     setCollapsed={setCollapsed}
@@ -31,12 +33,12 @@ const MainLayout = () => {
                         collapsed ? "lg:ml-20" : "lg:ml-[280px]"
                     )}
                 >
-                    <main className="flex-1 p-4 md:p-8 overflow-y-auto pb-24 lg:pb-8">
+                    <main className="flex-1 p-4 md:p-8 overflow-y-auto pb-24 lg:pb-8 pt-[1px]">
                         <Outlet />
                     </main>
                 </div>
             </div>
-            <BottomNav />
+            <BottomNav onMenuClick={() => setMobileOpen(true)} />
         </div>
     );
 };

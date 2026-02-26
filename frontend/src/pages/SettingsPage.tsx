@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import BackButton from '../components/common/BackButton';
 import { User, Lock, Bell, Globe, Database, Plus, CheckCircle2, Shield, Monitor, LogOut } from 'lucide-react';
 import { cn } from '../utils/cn';
 import { useTheme } from '../context/useTheme';
@@ -38,6 +39,7 @@ const SettingsPage = () => {
 
     return (
         <div className="w-full space-y-8">
+            <BackButton />
             <div>
                 <h1 className="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">Settings</h1>
                 <p className="text-slate-600 dark:text-slate-400 text-sm">Manage your profile, security, and integration preferences.</p>

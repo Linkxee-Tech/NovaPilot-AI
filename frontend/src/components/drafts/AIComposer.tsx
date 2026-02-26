@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { X, Send, Sparkles, MessageSquare, Save, Bot, User } from 'lucide-react';
+import { X, Send, Sparkles, MessageSquare, Save, Bot, User, Plus } from 'lucide-react';
 import { toast } from 'sonner';
 import client from '../../api/client';
 
@@ -12,10 +12,11 @@ interface AIComposerProps {
     isOpen: boolean;
     onClose: () => void;
     onApply: (content: string) => void;
+    onAppend: (content: string) => void;
     draftId?: number;
 }
 
-const AIComposer: React.FC<AIComposerProps> = ({ isOpen, onClose, onApply, draftId }) => {
+const AIComposer: React.FC<AIComposerProps> = ({ isOpen, onClose, onApply, onAppend, draftId }) => {
     const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -157,16 +158,28 @@ const AIComposer: React.FC<AIComposerProps> = ({ isOpen, onClose, onApply, draft
                                 }`}>
                                 {msg.content}
                                 {msg.role === 'assistant' && (
-                                    <button
-                                        onClick={() => {
-                                            onApply(msg.content);
-                                            toast.success('Applied to post. You can continue refining or close to view.', { duration: 2000 });
-                                        }}
-                                        className="mt-3 flex items-center gap-1.5 text-xs text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 transition-colors font-medium border-t border-slate-200 dark:border-slate-700 pt-2 w-full"
-                                    >
-                                        <Save size={12} />
-                                        Apply this to my post
-                                    </button>
+                                    <div className="mt-3 flex flex-wrap gap-3 border-t border-slate-200 dark:border-slate-700 pt-2 w-full">
+                                        <button
+                                            onClick={() => {
+                                                onApply(msg.content);
+                                                toast.success('Applied to post.', { duration: 2000 });
+                                            }}
+                                            className="flex items-center gap-1.5 text-xs text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 transition-colors font-black uppercase"
+                                        >
+                                            <Save size={12} />
+                                            Replace Content
+                                        </button>
+                                        <button
+                                            onClick={() => {
+                                                onAppend(msg.content);
+                                                toast.success('Appended to post.', { duration: 2000 });
+                                            }}
+                                            className="flex items-center gap-1.5 text-xs text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300 transition-colors font-black uppercase"
+                                        >
+                                            <Plus size={12} />
+                                            Append to Post
+                                        </button>
+                                    </div>
                                 )}
                             </div>
                         </div>

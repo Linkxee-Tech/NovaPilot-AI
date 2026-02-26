@@ -14,6 +14,11 @@ class Settings(BaseSettings):
     FRONTEND_URL: str = "http://localhost:5173"
     DEMO_MODE: bool = False
 
+    # Google OAuth
+    GOOGLE_CLIENT_ID: Optional[str] = None
+    GOOGLE_CLIENT_SECRET: Optional[str] = None
+    GOOGLE_REDIRECT_URI: Optional[str] = None
+
     # AWS Secrets Manager configuration
     USE_AWS_SECRETS: bool = False
     AWS_SECRET_NAME: str = "novapilot/production"
